@@ -34,8 +34,6 @@ public class GoogleMapAPI
             "&markers=color:blue%7Clabel:S%7C" + _lat + "," + _lon +
             "&key=" + m_key;
 
-            Debug.Log("url : " + url);
-
             WWW www = new WWW(url);
             int delay = 1000;
             int timer = 0;

@@ -955,6 +955,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b72cab2452732046b48296b0130f5ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gps: {fileID: 1542105191}
+  timedata: 
+  data: 
 --- !u!1 &490005189
 GameObject:
   m_ObjectHideFlags: 0
@@ -5067,7 +5070,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1104120889052496
 GameObject:
   m_ObjectHideFlags: 0
@@ -5557,7 +5560,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1485948240070500
 GameObject:
   m_ObjectHideFlags: 0
