@@ -43,7 +43,8 @@ public class serverTraccar : MonoBehaviour
                 if (server_state)
                 {
                     data = "/?id=" + userId + "&lat=" + latitude + "&lon=" + longitude + "&timestamp=" + timedata + "&hdop=0&altitude=68.4&speed=0";
-                    UnityWebRequest.Get(uri + data);
+                    data = uri + data;
+                    UnityWebRequest.Get(data);
                     Debug.Log(" Post on Server !!!");
                 }
             }
