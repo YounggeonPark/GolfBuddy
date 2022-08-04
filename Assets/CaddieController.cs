@@ -7,18 +7,19 @@ public class CaddieController : MonoBehaviour
     public GameObject user;
     public GameObject caddie;
 
-    private float speed;
 
     // Start is called before the first frame update
     void Start()
     {
-        speed = 0.5f;
+
     }
     void Update()
     {
-        lookUser();
+        transform.position = new Vector3(transform.position.x, user.transform.position.y, transform.position.z);
+        //lookUser();
+        transform.LookAt(user.transform.position);
     }
-
+        
     private void lookUser()
     {
         Vector3 l_vector = user.transform.position - transform.position;

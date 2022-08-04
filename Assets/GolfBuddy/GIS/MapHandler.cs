@@ -29,7 +29,8 @@ public class MapHandler : MonoBehaviour
         lat = gpsHandler.getLat();
         lon = gpsHandler.getLong();
 
-        mapAPI.StaticMap(rawimage2deploy, lat, lon, 15, 2, type);
+
+        //mapAPI.StaticMap(rawimage2deploy, lat, lon, 15, 2, type);
     }
 
     private void Update()
@@ -39,7 +40,7 @@ public class MapHandler : MonoBehaviour
         {
             lat -= 0.001f;
             lon -= 0.001f;
-            mapAPI.StaticMap(rawimage2deploy, lat, lon, 15, 10, type);
+            //mapAPI.StaticMap(rawimage2deploy, lat, lon, 15, 10, type);
             tick = 0;
         }
     }

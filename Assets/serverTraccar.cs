@@ -44,7 +44,7 @@ public class serverTraccar : MonoBehaviour
                 {
                     data = "/?id=" + userId + "&lat=" + latitude + "&lon=" + longitude + "&timestamp=" + timedata + "&hdop=0&altitude=68.4&speed=0";
                     UnityWebRequest.Get(uri + data);
-                    Debug.Log(" Post on Server !!!");
+                    Debug.Log("[Server] UPLOAD_Traccar GPS location");
                 }
             }
 

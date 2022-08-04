@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
-public class GoogleMapAPI
+public class GoogleMapAPI : MonoBehaviour
 {
-    [SerializeField]
-    private string m_key = "AIzaSyBZcHAVpU9pUcR_4Y_R8gPWUK2btrugVGw";
+    [SerializeField] RawImage _rawImage;
+    [SerializeField] GPSHandler gpsHandler;
 
     public enum mapType
     {
@@ -17,24 +17,90 @@ public class GoogleMapAPI
         terrain
     }
 
-    public bool StaticMap(RawImage _rawImage, float _lat, float _lon, int _zoom, int _scale, mapType _mapType)
+    private string m_key = "AIzaSyBZcHAVpU9pUcR_4Y_R8gPWUK2btrugVGw";
+    private mapType type;
+    private float longitude;
+    private float latitude;
+
+    private int mapWidth;
+    private int mapHeight;
+    private float time;
+
+    public string url;
+    public int zoom;
+    public int scale;
+
+    private void Start()
+    {
+        mapWidth = (int)_rawImage.GetComponent<RectTransform>().rect.width;
+        mapHeight = (int)_rawImage.GetComponent<RectTransform>().rect.height;
+
+        type = mapType.satellite;
+        zoom = 15;
+        scale = 10;
+
+
+        //첫로딩
+        longitude = gpsHandler.longitude;
+        latitude = gpsHandler.latitude;
+        StaticMap();
+
+    }
+
+    private void Update()
+    {
+        time += Time.deltaTime;
+        if(time > 10)
+        {
+            longitude = gpsHandler.longitude;
+            latitude = gpsHandler.latitude;
+
+            StaticMap();
+            Debug.Log("[Map] UPDATE_Google Static API");
+            time = 0;
+        }
+    }
+
+    private void GoogleStatic()
+    {
+        string url = "https://maps.googleapis.com/maps/api/staticmap?" +
+            "center=" + longitude + "," + latitude +
+            "&zoom=" + zoom +
+            "&size=" + mapWidth + "x" + mapHeight +
+            "&scale=" + scale +
+            "&maptype=" + type +
+            "&markers=color:blue%7Clabel:S%7C" + latitude + "," + longitude +
+            "&key=" + m_key;
+
+        var webRequest = UnityWebRequestTexture.GetTexture(url);
+        webRequest.SendWebRequest();
+        if(webRequest.error == null)
+        {
+            _rawImage.texture = DownloadHandlerTexture.GetContent(webRequest);
+        }
+        else
+        {
+            Debug.Log("ERROR WebRequest");
+        }
+    }
+
+
+    public bool StaticMap()
     {
         try
         {
-            int mapWidth = (int)_rawImage.GetComponent<RectTransform>().rect.width;
-            int mapHeight = (int)_rawImage.GetComponent<RectTransform>().rect.height;
-
-            string url =
-            "https://maps.googleapis.com/maps/api/staticmap?" +
-            "center=" + _lat + "," + _lon +
-            "&zoom=" + _zoom +
+            url = "https://maps.googleapis.com/maps/api/staticmap?" +
+            "center=" + longitude + "," + latitude +
+            "&zoom=" + zoom +
             "&size=" + mapWidth + "x" + mapHeight +
-            "&scale=" + _scale +
-            "&maptype=" + _mapType +
-            "&markers=color:blue%7Clabel:S%7C" + _lat + "," + _lon +
+            "&scale=" + scale +
+            "&maptype=" + type +
+            "&markers=color:blue%7Clabel:S%7C" + latitude + "," + longitude +
             "&key=" + m_key;
 
+#pragma warning disable CS0618 // 형식 또는 멤버는 사용되지 않습니다.
             WWW www = new WWW(url);
+#pragma warning restore CS0618 // 형식 또는 멤버는 사용되지 않습니다.
             int delay = 1000;
             int timer = 0;
             bool done = false;

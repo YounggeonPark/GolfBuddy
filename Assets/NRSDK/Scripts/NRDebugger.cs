@@ -52,16 +52,16 @@ namespace NRKernal
             switch (level)
             {
                 case LogLevel.Debug:
-                    UnityEngine.Debug.Log(log_info);
+                    //UnityEngine.Debug.Log(log_info);
                     break;
                 case LogLevel.Info:
-                    UnityEngine.Debug.Log(log_info);
+                    //UnityEngine.Debug.Log(log_info);
                     break;
                 case LogLevel.Warning:
-                    UnityEngine.Debug.LogWarning(log_info);
+                    //UnityEngine.Debug.LogWarning(log_info);
                     break;
                 case LogLevel.Error:
-                    UnityEngine.Debug.LogError(log_info);
+                    //UnityEngine.Debug.LogError(log_info);
                     break;
                 default:
                     throw new System.Exception(log_info);
