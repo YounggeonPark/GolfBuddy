@@ -29,6 +29,7 @@ public class GoogleMapAPI : MonoBehaviour
     public string url;
     public int zoom;
     public int scale;
+    public bool GoogleMap_Toggle;
 
     private void Start()
     {
@@ -55,8 +56,11 @@ public class GoogleMapAPI : MonoBehaviour
             longitude = gpsHandler.longitude;
             latitude = gpsHandler.latitude;
 
-            StaticMap();
-            Debug.Log("[Map] UPDATE_Google Static API");
+            if (GoogleMap_Toggle)
+            {
+                StaticMap();
+                Debug.Log("[Map] UPDATE_Google Static API");
+            }
             time = 0;
         }
     }

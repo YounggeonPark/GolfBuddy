@@ -1,0 +1,272 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OSC</name>
+    </assembly>
+    <members>
+        <member name="T:ARS.OSC">
+            <summary>
+            Holds the Unity Wrapper to OSCListener and OSCSender from all application
+            </summary>
+        </member>
+        <member name="M:ARS.OSC.TimetagToDateTime(System.UInt64)">
+            <summary>
+            Converts a ulong to System.DateTime timetag.
+            </summary>
+            <param name="timeTag">The timetag</param>
+            <returns>The DateTime</returns>
+        </member>
+        <member name="M:ARS.OSC.DateTimeToTimetag(System.DateTime)">
+            <summary>
+            Converts a System.DateTime to ulong timetag.
+            </summary>
+            <param name="timeTagDateTime">The DateTime</param>
+            <returns>The timetag</returns>
+        </member>
+        <member name="M:ARS.OSC.getListenerFromPort(System.Int32)">
+            <summary>
+            Search for all listeners that listen one port. If it doesn't find a listener, a new one will be created.
+            </summary>
+            <param name="port">The UDP port</param>
+            <returns>Listener associated with a port</returns>
+        </member>
+        <member name="M:ARS.OSC.destroyListener(ARS.OSC.OSCRealListener)">
+            <summary>
+            Called from OSCRealListener or OSCListener to update the current list.
+            </summary>
+            <param name="rl">OSCRealListener to remove from list</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.OSC.aquireListener(UnityEngine.Object,System.Int32)">
+            <summary>
+            Return or allocate an OSC listener associated with the port parameter.
+            </summary>
+            <param name="thiz">The GameObject to receive the event call.</param>
+            <param name="port">The port to listen to.</param>
+            <returns>The OSCListener associated with the port</returns>
+        </member>
+        <member name="M:ARS.OSC.checkOscCreate">
+            <summary>
+            Check the creation of the OSC gameobject. Create a new one if none is found.
+            </summary>
+            <returns>void</returns>
+        </member>
+        <member name="P:ARS.OSC.Instance">
+            <summary>
+            Property that holds the OSC instance
+            </summary>
+            <returns>the OSC instance in the scene</returns>
+        </member>
+        <member name="M:ARS.OSC.Awake">
+            <summary>
+            Setup the OSC instance to be not destroyed on load
+            </summary>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.OSC.Start">
+            <summary>
+            Check the instance, if already has an instance in the scene then destroy itself
+            </summary>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.OSC.LateUpdate">
+            <summary>
+            Receive loop. This loop process all incoming OSC message and calls the associated listeners.
+            As well as it is called from Update, it can be processed by any method and use the mainLoop methods without crash the application.
+            </summary>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.OSC.aquireSender(System.String,System.Int32)">
+            <summary>
+            Creates a new OSCSender instance associated with a send address and a send port.
+            </summary>
+            <param name="address">The address to send to.</param>
+            <param name="port">The port to send to.</param>
+            <returns>The OSCSender instance</returns>
+        </member>
+        <member name="T:ARS.OSC.OSCBundle">
+            <summary>
+            Wrapper to use bundles from Unity
+            </summary>
+        </member>
+        <member name="M:ARS.OSC.OSCBundle.queryInternals(System.UInt64@,System.Object@)">
+            <summary>
+            Query internal structures
+            </summary>
+        </member>
+        <member name="M:ARS.OSC.OSCBundle.#ctor(System.DateTime)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="dateTime">The timetag of this bundle will be set from System.DateTime.</param>
+        </member>
+        <member name="M:ARS.OSC.OSCBundle.#ctor(System.UInt64)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="timertag">The timetag of this bundle</param>
+        </member>
+        <member name="M:ARS.OSC.OSCBundle.addMessage(System.String,System.Object[])">
+            <summary>
+            Add an OSC message to the messageList
+            </summary>
+            <param name="address">The address to send to.</param>
+            <param name="p">The parameters to send within a message.</param>
+            <returns>void</returns>
+        </member>
+        <member name="T:ARS.OSC.OSCListener">
+            <summary>
+            Helper to manage instances that listen to an OSC address
+            </summary>
+        </member>
+        <member name="M:ARS.OSC.OSCListener.IsLocalIpAddress(System.String)">
+            <summary>
+            Check if the parameter is a local address.
+            </summary>
+            <param name="host">The address to check.</param>
+        </member>
+        <member name="P:ARS.OSC.OSCListener.TargetUnityObject">
+            <summary>
+            The associated Unity Object to this listener.
+            </summary>
+        </member>
+        <member name="F:ARS.OSC.OSCListener.ComesFromBundle">
+            <summary>
+            Current package state: is it from a bundle message.
+            </summary>
+        </member>
+        <member name="F:ARS.OSC.OSCListener.BundleTimeTag">
+            <summary>
+            Current package state: the current time tag.
+            </summary>
+        </member>
+        <member name="P:ARS.OSC.OSCListener.BundleTimeTagDateTime">
+            <summary>
+            Current package state: the current time tag in System.DateTime format.
+            </summary>
+        </member>
+        <member name="M:ARS.OSC.OSCListener.#ctor(UnityEngine.Object,System.Object)">
+            <summary>
+            Create a listener associated with a Unity gameobject.
+            </summary>
+            <param name="thiz">The Unity Object.</param>
+            <param name="realListener">The internal real listener.</param>
+        </member>
+        <member name="M:ARS.OSC.OSCListener.exists(System.String,System.Object,System.String)">
+            <summary>
+            Check if a bind association (addres,obj,methodname) exists
+            </summary>
+            <param name="address">The OSC address.</param>
+            <param name="obj">The receive object instance.</param>
+            <param name="methodname">The methodname.</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.OSC.OSCListener.call(System.Object)">
+            <summary>
+            Process incoming RAW OSC message and call the instances methods according the binding: address,obj,method.
+            </summary>
+            <param name="_msg">The OSC message.</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.OSC.OSCListener.bind(System.String,System.String)">
+            <summary>
+            Bind an address and methodname, using the thiz variable. It uses reflection to bind the methodname.
+            </summary>
+            <param name="address">The OSC address.</param>
+            <param name="methodname">The method name.</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.OSC.OSCListener.bind(System.String,System.Object,System.String)">
+            <summary>
+            Bind an address, obj and methodname, using the thiz variable. It uses reflection to bind the methodname.
+            </summary>
+            <param name="address">The OSC address.</param>
+            <param name="obj">The object instance that will receive the message.</param>
+            <param name="methodname">The method name.</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.OSC.OSCListener.unbind(System.String,System.String)">
+            <summary>
+            Remove the previous bind address and methodname.
+            </summary>
+            <param name="address">The OSC address.</param>
+            <param name="methodname">The instance method name.</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.OSC.OSCListener.unbind(System.String,System.Object,System.String)">
+            <summary>
+            Remove the previous bind address, object instance and methodname.
+            </summary>
+            <param name="address">The OSC address.</param>
+            <param name="obj">The Object Instance that will receive the message.</param>
+            <param name="methodname">The instance method name.</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.OSC.OSCListener.close">
+            <summary>
+            Close the current listener.
+            </summary>
+            <returns>void</returns>
+        </member>
+        <member name="T:ARS.OSC.OSCRealListener">
+            <summary>
+            Unity OSC/UDP listener.
+            </summary>
+        </member>
+        <member name="M:ARS.OSC.OSCRealListener.dispose">
+            <summary>
+            Tells the OSC global manager that this listener can be destroyed
+            </summary>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.OSC.OSCRealListener.processOscMessage(System.Object,System.Boolean,System.UInt64)">
+            <summary>
+            Process incoming RAW OSC message to be used by the OSCListener.
+            </summary>
+            <param name="_msg">The OSC message.</param>
+            <param name="comesFromBundle">If comes from bundle, then is true.</param>
+            <param name="timeTag">If comes from bundle, the value is different of ZERO.</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.OSC.OSCRealListener.processOscBundle(System.Object)">
+            <summary>
+            Process incoming RAW OSC Bundle message to be used by the OSCListener.
+            </summary>
+            <param name="_bndl">The OSC Bundle to be processed.</param>
+            <returns>void</returns>
+        </member>
+        <member name="T:ARS.OSC.OSCSender">
+            <summary>
+            Unity OSC/UDP sender
+            </summary>
+        </member>
+        <member name="M:ARS.OSC.OSCSender.#ctor(System.String,System.Int32)">
+            <summary>
+            Create new OSC sender class.
+            </summary>
+            <param name="address">The address to send to.</param>
+            <param name="port">The port to send to.</param>
+        </member>
+        <member name="M:ARS.OSC.OSCSender.send(System.String,System.Object[])">
+            <summary>
+            Send an OSCMessage using the current UDP sender.
+            </summary>
+            <param name="address">The address to send to.</param>
+            <param name="p">The parameters to send within a message.</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.OSC.OSCSender.send(ARS.OSC.OSCBundle)">
+            <summary>
+            Send a bundle using the current UDP sender.
+            </summary>
+            <param name="ob">The bundle to send.</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.OSC.OSCSender.close">
+            <summary>
+            Close the current send socket.
+            </summary>
+            <returns>void</returns>
+        </member>
+    </members>
+</doc>

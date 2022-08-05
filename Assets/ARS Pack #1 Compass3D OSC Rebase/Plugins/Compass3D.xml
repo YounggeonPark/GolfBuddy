@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Compass3D</name>
+    </assembly>
+    <members>
+        <member name="T:ARS.Compass3D">
+            <summary>
+            Holds the computations to get compass + acceleration to Unity Quaterion
+            </summary>
+        </member>
+        <member name="F:ARS.Compass3D._objectRotation">
+            <summary>
+            final object rotation
+            </summary>
+        </member>
+        <member name="F:ARS.Compass3D._targetRotation">
+            <summary>
+            the orientation the computations want to set
+            </summary>
+        </member>
+        <member name="F:ARS.Compass3D._accFilter">
+            <summary>
+            1st accelerometer and 2nd compass filter
+            </summary>
+        </member>
+        <member name="F:ARS.Compass3D._compassFilter">
+            <summary>
+            1st accelerometer and 2nd compass filter
+            </summary>
+        </member>
+        <member name="F:ARS.Compass3D.resetNorthQuaternion">
+            <summary>
+            resetNorthQuaternion
+            </summary>
+        </member>
+        <member name="F:ARS.Compass3D._oldCompassFilter">
+            <summary>
+            1st noisy compass filter
+            </summary>
+        </member>
+        <member name="P:ARS.Compass3D.ObjectRotation">
+            <summary>
+            Compute the object rotation based on the compass and acceleromenter orientation
+            </summary>
+        </member>
+        <member name="P:ARS.Compass3D.CameraRotation">
+            <summary>
+            Compute the camera rotation based on the compass and acceleromenter orientation
+            </summary>
+        </member>
+        <member name="M:ARS.Compass3D.ResetNorth">
+            <summary>
+            Sets the front view as North to the virtual compass
+            </summary>
+        </member>
+        <member name="M:ARS.Compass3D.ComputeOrientationFromInputs">
+            <summary>
+            Computes the orientation based on accelerometer and compass.
+            If the compass is not enabled, it enables it.
+            </summary>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.Compass3D.fixRawCompassAcordingScreen(UnityEngine.Vector3)">
+            <summary>
+            Fix the raw compass according the current screen orientation
+            </summary>
+            <param name="input">raw compass vector</param>
+            <returns>the unity corrected compass vector</returns>
+        </member>
+        <member name="M:ARS.Compass3D.gravityGeomagneticToUnityQuaternion(UnityEngine.Quaternion@,UnityEngine.Vector3,UnityEngine.Vector3)">
+            <summary>
+            Computes the unity object rotation quaternion based on the gravity and geomagnetic. 
+            OBS.: the geomagnetic must be fixed because unity gives it as the raw sensor data.
+                  the gravity in Unity is measured in G, so it is 1.0 instead 9.81 .
+            </summary>
+            <param name="R">The result rotation</param>
+            <param name="gravity">The current Unity gravity</param>
+            <param name="geomagnetic">The fixed compass vector</param>
+            <returns>True if it is possible to compute the rotation. False otherwise</returns>
+        </member>
+    </members>
+</doc>

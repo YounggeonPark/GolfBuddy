@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Rebase</name>
+    </assembly>
+    <members>
+        <member name="T:ARS.Rebase">
+            <summary>
+            Rebase tool, to convert one 3D space point to another 3D space point
+            </summary>
+        </member>
+        <member name="F:ARS.Rebase.origin">
+            <summary>
+            Origin (Real World) Transformation reference
+            </summary>
+        </member>
+        <member name="F:ARS.Rebase.x">
+            <summary>
+            Origin (Real World) Transformation reference
+            </summary>
+        </member>
+        <member name="F:ARS.Rebase.y">
+            <summary>
+            Origin (Real World) Transformation reference
+            </summary>
+        </member>
+        <member name="F:ARS.Rebase.z">
+            <summary>
+            Origin (Real World) Transformation reference
+            </summary>
+        </member>
+        <member name="F:ARS.Rebase.targetOrigin">
+            <summary>
+            Target (Virtual World) Transformation reference
+            </summary>
+        </member>
+        <member name="F:ARS.Rebase.targetX">
+            <summary>
+            Target (Virtual World) Transformation reference
+            </summary>
+        </member>
+        <member name="F:ARS.Rebase.targetY">
+            <summary>
+            Target (Virtual World) Transformation reference
+            </summary>
+        </member>
+        <member name="F:ARS.Rebase.targetZ">
+            <summary>
+            Target (Virtual World) Transformation reference
+            </summary>
+        </member>
+        <member name="F:ARS.Rebase.finalMatrix">
+            <summary>
+            Matrix to transform points and rotation
+            </summary>
+        </member>
+        <member name="F:ARS.Rebase.finalMatrix_inv">
+            <summary>
+            Matrix to transform points and rotation
+            </summary>
+        </member>
+        <member name="M:ARS.Rebase.setOrigin(UnityEngine.Vector3)">
+            <summary>
+            Set the origin point in real world coordinate system.
+            </summary>
+            <param name="p">Real-world point</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.Rebase.setX(UnityEngine.Vector3)">
+            <summary>
+            Set the X axis point in real world coordinate system.
+            </summary>
+            <param name="p">Real-world point</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.Rebase.setY(UnityEngine.Vector3)">
+            <summary>
+            Set the Y axis point in real world coordinate system.
+            </summary>
+            <param name="p">Real-world point</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.Rebase.setZ(UnityEngine.Vector3)">
+            <summary>
+            Set the Z axis point in real world coordinate system.
+            </summary>
+            <param name="p">Real-world point</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.Rebase.setOrigin(UnityEngine.Transform)">
+            <summary>
+            Set the origin point in real world coordinate system.
+            </summary>
+            <param name="T">Real-world transform point</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.Rebase.setX(UnityEngine.Transform)">
+            <summary>
+            Set the X axis point in real world coordinate system.
+            </summary>
+            <param name="T">Real-world transform point</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.Rebase.setY(UnityEngine.Transform)">
+            <summary>
+            Set the Y axis point in real world coordinate system.
+            </summary>
+            <param name="T">Real-world transform point</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.Rebase.setZ(UnityEngine.Transform)">
+            <summary>
+            Set the Z axis point in real world coordinate system.
+            </summary>
+            <param name="T">Real-world transform point</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.Rebase.setTargetOrigin(UnityEngine.Vector3)">
+            <summary>
+            Set the origin point in virtual world coordinate system.
+            </summary>
+            <param name="p">Virtual-world point</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.Rebase.setTargetX(UnityEngine.Vector3)">
+            <summary>
+            Set the X axis point in virtual world coordinate system.
+            </summary>
+            <param name="p">Virtual-world point</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.Rebase.setTargetY(UnityEngine.Vector3)">
+            <summary>
+            Set the Y axis point in virtual world coordinate system.
+            </summary>
+            <param name="p">Virtual-world point</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.Rebase.setTargetZ(UnityEngine.Vector3)">
+            <summary>
+            Set the Z axis point in virtual world coordinate system.
+            </summary>
+            <param name="p">Virtual-world point</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.Rebase.setTargetOrigin(UnityEngine.Transform)">
+            <summary>
+            Set the origin point in virtual world coordinate system.
+            </summary>
+            <param name="T">Virtual-world transform point</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.Rebase.setTargetX(UnityEngine.Transform)">
+            <summary>
+            Set the X axis point in virtual world coordinate system.
+            </summary>
+            <param name="T">Virtual-world transform point</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.Rebase.setTargetY(UnityEngine.Transform)">
+            <summary>
+            Set the Y axis point in virtual world coordinate system.
+            </summary>
+            <param name="T">Virtual-world transform point</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.Rebase.setTargetZ(UnityEngine.Transform)">
+            <summary>
+            Set the Z axis point in virtual world coordinate system.
+            </summary>
+            <param name="T">Virtual-world transform point</param>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.Rebase.computeCalibrationMatrix">
+            <summary>
+            Compute the transform matrix and the inverse transform matrix using the Real-World reference and Virtual-world reference.
+            </summary>
+            <returns>void</returns>
+        </member>
+        <member name="M:ARS.Rebase.compute(UnityEngine.Vector3)">
+            <summary>
+            Compute the transformation of a point from real-world coordinate system to virtual-world coordinate system.
+            </summary>
+            <param name="realWorldPoint">The point in real-world space coordinate system</param>
+            <returns>The point in virtual-world space coordinate system.</returns>
+        </member>
+        <member name="M:ARS.Rebase.computeOrientation(UnityEngine.Quaternion)">
+            <summary>
+            Compute the quaternion of a point from real-world coordinate system to virtual-world coordinate system.
+            </summary>
+            <param name="realWorldRotation">The rotation in real-world space coordinate system</param>
+            <returns>The rotation in virtual-world space coordinate system.</returns>
+        </member>
+    </members>
+</doc>
