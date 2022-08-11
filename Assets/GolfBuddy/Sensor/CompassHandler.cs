@@ -5,12 +5,14 @@ using ARS;
 public class CompassHandler : MonoBehaviour
 {
     Quaternion compass4;
-    Quaternion calibration;
+    Vector3 calibration;
     public Text compass_text;
+
+    private static Vector3 _accFilter;
 
     private void Start()
     {
-        calibration = new Quaternion(0, 0, 0, 1);
+
     }
 
     // Update is called once per frame
@@ -22,6 +24,6 @@ public class CompassHandler : MonoBehaviour
     }
     public void Calibration()
     {
-        compass_text.text = compass4.x + " , "+compass4.y+" , "+compass4.z+" , "+compass4.w;
+        calibration = Input.acceleration;
     }
 }
