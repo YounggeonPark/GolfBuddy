@@ -19,8 +19,8 @@ public class GoogleMapAPI : MonoBehaviour
 
     private string m_key = "AIzaSyBZcHAVpU9pUcR_4Y_R8gPWUK2btrugVGw";
     private mapType type;
-    private float longitude;
-    private float latitude;
+    public float longitude;
+    public float latitude;
 
     private int mapWidth;
     private int mapHeight;
@@ -29,40 +29,58 @@ public class GoogleMapAPI : MonoBehaviour
     public string url;
     public int zoom;
     public int scale;
-    public bool GoogleMap_Toggle;
+    public bool GoogleMap_Toggle = true;
 
-    private void Start()
+    public bool circle = true;
+
+    void Start()
     {
         mapWidth = (int)_rawImage.GetComponent<RectTransform>().rect.width;
         mapHeight = (int)_rawImage.GetComponent<RectTransform>().rect.height;
 
         type = mapType.satellite;
-        zoom = 15;
+        zoom = 17;  //15~
         scale = 10;
 
 
         //첫로딩
         longitude = gpsHandler.longitude;
         latitude = gpsHandler.latitude;
-        StaticMap();
-
     }
 
-    private void Update()
+    void Update()
     {
         time += Time.deltaTime;
         if(time > 10)
         {
-            longitude = gpsHandler.longitude;
-            latitude = gpsHandler.latitude;
-
-            if (GoogleMap_Toggle)
-            {
-                StaticMap();
-                Debug.Log("[Map] UPDATE_Google Static API");
-            }
-            time = 0;
+            Reload();
         }
+    }
+
+
+    public void Reload()
+    {
+        longitude = gpsHandler.longitude;
+        latitude = gpsHandler.latitude;
+
+        if (GoogleMap_Toggle)
+        {
+            StaticMap();
+            Debug.Log("[Map] UPDATE_Google Static API");
+
+            if (circle)
+            {
+                // 100M
+                _rawImage.texture = DrawCircle(_rawImage.texture as Texture2D, Color.red, mapWidth / 2, mapHeight / 2, 100);
+                // 200M
+                _rawImage.texture = DrawCircle(_rawImage.texture as Texture2D, Color.red, mapWidth / 2, mapHeight / 2, 200);
+                // 300M
+                _rawImage.texture = DrawCircle(_rawImage.texture as Texture2D, Color.red, mapWidth / 2, mapHeight / 2, 300);
+
+
+            }
+        }
+        time = 0;
     }
 
     private void GoogleStatic()
@@ -150,5 +168,32 @@ public class GoogleMapAPI : MonoBehaviour
             return false;
         }
         return true;
+    }
+
+    public void CircleONOFF()
+    {
+        circle = !circle;
+    }
+
+    public Texture DrawCircle(Texture2D tex, Color color, int x, int y, int radius = 3)
+    {
+        float rSquared = radius * radius;
+        float rSquared_inner = (radius - 1) * (radius - 1);
+
+        for (int u = x - radius; u < x + radius + 1; u++)
+        {
+            for (int v = y - radius; v < y + radius + 1; v++)
+            {
+                int temp = (x - u) * (x - u) + (y - v) * (y - v);
+                if (temp < rSquared && temp > rSquared_inner)
+                {
+                    tex.SetPixel(u, v, color);
+                }
+                    
+            }
+        }
+        tex.Apply();
+        Debug.Log("DrawCircle 작동");
+        return tex;
     }
 }

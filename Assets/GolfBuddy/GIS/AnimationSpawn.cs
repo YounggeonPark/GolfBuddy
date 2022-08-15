@@ -8,7 +8,17 @@ public class AnimationSpawn : MonoBehaviour
     float tick = -300;
     Vector3 firstPos;
 
-    GameObject anchor;
+    public GameObject anchor;
+
+    void OnEnable()
+    {
+        tick = -300;
+        if (anchor != null)
+        {
+            firstPos = anchor.transform.position;
+        }
+        firstPos = transform.position;
+    }
 
     // Start is called before the first frame update
     void Start()

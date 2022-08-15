@@ -24,12 +24,12 @@ public class UserPosUpdate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gpshandler.isUpdated)
+        if (gpshandler.updateGPS)
         {
             #region GPS에서 Position좌표로 전환 //terrain(0) 기준
             // User 위성좌표
-            userLon = gpshandler.getLong();
-            userLat = gpshandler.getLat();
+            userLon = gpshandler.GetLong();
+            userLat = gpshandler.GetLat();
             #endregion
 
             userUnityPos = coordinate.gps2unity(userLon, userLat);

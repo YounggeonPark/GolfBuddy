@@ -67,7 +67,7 @@ public class CoordinateHandler
     #endregion
 
     #region UnitytoGPS
-    public Vector3 unity2gps(Vector3 objectPos)
+    public Vector3 unity3d2gps(Vector3 objectPos)
     {
         Vector3 gpsVector = (objectPos*512) - Terrain.activeTerrain.transform.position;
         float gps_long = terrainLeft + (gpsVector.x * terrainXscale);
@@ -76,5 +76,10 @@ public class CoordinateHandler
         return new Vector3(gps_long, 0, gps_lat);
     }
 
+    public Vector3 unity2d2gps(Vector3 objectPos)
+    {
+        
+        return new Vector3(0, 0, 0);
+    }
     #endregion
 }

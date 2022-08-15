@@ -7,24 +7,36 @@ using UnityEngine.Android;
 
 public class GPSHandler : MonoBehaviour
 {
-    public Text gpsOut;
-
+    //실제 데이터
     public float longitude = 0;
     public float latitude = 0;
 
     public bool isUpdating;
-    public bool isUpdated = false;
+    public bool updateGPS = false;
+
+    //테스트용
+    [SerializeField] Text text;
+    public bool test_mode = true;
+    public float test_longitude = 128.07340f; //10m
+    public float test_latitude = 34.83658f; //67m
+    private float start_real_long;
+    private float start_real_lat;
+    private float last_real_long;
+    private float last_real_lat;
 
     private void Start()
     {
-        if (longitude == 0 || latitude == 0)
+        StartCoroutine(GetLocation());
+        if (test_mode)
         {
-            //longitude = 128.06889f;
-            //latitude = 34.83602f; //10m
+            start_real_long = last_real_long;
+            start_real_lat = last_real_lat;
 
-            longitude = 128.07340f;
-            latitude = 34.83658f; //67m
+            //테스트 기준점 + 변화량
+            longitude = test_longitude;
+            latitude = test_latitude;
 
+            text.text = "TEST MODE\n" + longitude + ",  " + latitude;
         }
     }
 
@@ -34,6 +46,12 @@ public class GPSHandler : MonoBehaviour
         {
             StartCoroutine(GetLocation());
             isUpdating = !isUpdating;
+
+            if (test_mode)
+            {
+                longitude = test_longitude + (last_real_long - start_real_long);
+                latitude = test_latitude + (last_real_lat - start_real_lat);
+            }
         }
     }
     IEnumerator GetLocation()
@@ -61,7 +79,6 @@ public class GPSHandler : MonoBehaviour
         // Service didn't initialize in 20 seconds
         if (maxWait < 1)
         {
-            gpsOut.text = "Timed out";
             print("Timed out");
             yield break;
         }
@@ -69,18 +86,25 @@ public class GPSHandler : MonoBehaviour
         // Connection has failed
         if (Input.location.status == LocationServiceStatus.Failed)
         {
-            gpsOut.text = "Unable to determine device location";
             print("Unable to determine device location");
             yield break;
         }
         else
         {
-            isUpdated = true;
-            //latitude = Input.location.lastData.latitude;
-            //longitude = Input.location.lastData.longitude;
+            updateGPS = true;
+            if (test_mode)
+            {
+                last_real_lat = Input.location.lastData.latitude;
+                last_real_long = Input.location.lastData.longitude;
+            }
+            else
+            {
+                latitude = Input.location.lastData.latitude;
+                longitude = Input.location.lastData.longitude;
+            }
+            
 
 
-            gpsOut.text = "Location: " + Input.location.lastData.latitude + " " + Input.location.lastData.longitude + " " + Input.location.lastData.altitude + 100f + " " + Input.location.lastData.horizontalAccuracy + " " + Input.location.lastData.timestamp;
             // Access granted and location value could be retrieved
             Debug.Log("Location: " + Input.location.lastData.latitude + " " + Input.location.lastData.longitude + " " + Input.location.lastData.altitude + " " + Input.location.lastData.horizontalAccuracy + " " + Input.location.lastData.timestamp);
         }
@@ -90,13 +114,22 @@ public class GPSHandler : MonoBehaviour
         Input.location.Stop();
     }
 
-    public float getLong()
+    public float GetLong()
     {
         return longitude;
     }
 
-    public float getLat()
+    public float GetLat()
     {
         return latitude;
+    }
+
+    public bool CheckInArea(TerrainData terrainData) {
+
+        if(longitude>terrainData.leftLong && longitude < terrainData.rightLong && latitude > terrainData.bottomLat && latitude < terrainData.topLat)
+        {
+            return true;
+        }
+        else { return false; }
     }
 }

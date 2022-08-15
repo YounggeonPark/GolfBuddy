@@ -29,7 +29,7 @@ public class ObjectDetection : MonoBehaviour
 
     private int x1=0 ; private int y1=0 ;
 
-    private bool send = true;
+    public bool send = true;
 
     // Start is called before the first frame update
     void Start()
@@ -51,7 +51,7 @@ public class ObjectDetection : MonoBehaviour
             //  Prediction API 사용
             if (send)
             {
-                MakePredictionRequest(texture_cropped);
+                MakePredictionRequest(texture_cropped).ConfigureAwait(false);
                 send = false;
             }
 
@@ -76,24 +76,24 @@ public class ObjectDetection : MonoBehaviour
         return texture;
     }
 
-    private async Task MakePredictionRequest(Texture2D tex)
+    public async Task MakePredictionRequest(Texture2D tex)
     {
         var client = new HttpClient();
-
         client.DefaultRequestHeaders.Add("Prediction-Key", "660e24abf0504578a7abc88a5ad82c49");
-
-        string url = "https://metaversedevelopergolfball-prediction.cognitiveservices.azure.com/customvision/v3.0/Prediction/eadf6bf6-1937-42e6-a028-06d317943443/detect/iterations/General_compacgt_s1/image?";
+        string url = "https://metaversedevelopergolfball-prediction.cognitiveservices.azure.com/customvision/v3.0/Prediction/eadf6bf6-1937-42e6-a028-06d317943443/detect/iterations/Iteration1/image?";
 
         HttpResponseMessage response;
+        Debug.Log("MakePrediction Request 3");
 
-        byte[] byteData = tex.EncodeToPNG();
+        byte[] byteData = tex.EncodeToJPG();    //여기서 문제발생
 
-        using (var content = new ByteArrayContent(byteData))
-        {
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-            response = await client.PostAsync(url, content);
-            result = await response.Content.ReadAsStringAsync();
-        }
+        Debug.Log("MakePrediction Request 4");
+        var content = new ByteArrayContent(byteData);
+        content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+
+        response = await client.PostAsync(url, content).ConfigureAwait(false);
+        result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
         json = JsonConvert.DeserializeObject<ResultJson>(result);
         predictions = json.predictions;
         box = predictions[0].boundingBox;
