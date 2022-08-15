@@ -46,6 +46,13 @@ public class GoogleMapAPI : MonoBehaviour
         //Ã¹·Îµù
         longitude = gpsHandler.longitude;
         latitude = gpsHandler.latitude;
+
+        StaticMap();
+
+        if (circle)
+        {
+            Reload();
+        }
     }
 
     void Update()

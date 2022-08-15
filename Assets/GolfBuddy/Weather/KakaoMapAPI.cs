@@ -1,4 +1,6 @@
+using Newtonsoft.Json;
 using Proyecto26;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
@@ -29,23 +31,52 @@ public class KakaoMapAPI
 #endif
     }
 
-    public async Task<string> GetPublicPos()
+    public bool GPS2Npos()
     {
-        //  Update URL based on GPS
-        url += "&x="+ longitude;     //x:longitude 
-        url += "&y="+ latitude;    //y: latitude
+        try
+        {
+            //  Update URL based on GPS
+            url += "&x=" + longitude;     //x:longitude 
+            url += "&y=" + latitude;    //y: latitude
 
-        //  REST API ½ÇÇà 
-        RestClient.DefaultRequestHeaders["Authorization"] = "KakaoAK "+key;
-        RestClient.Get<KakaoReturn>(url).Then(res => kakao_return = res);
-        if(kakao_return != null)
-        {
-            return kakao_return.documents[0].code;
+            Dictionary<string, string> headers = new Dictionary<string, string>();
+            headers.Add("Authorization", "KakaoAK "+key);
+
+            WWW www = new WWW(url, null, headers);
+
+            int delay = 1000;
+            int timer = 0;
+            bool done = false;
+
+            while (delay > timer)
+            {
+                System.Threading.Thread.Sleep(1);
+                timer++;
+                if (www.isDone)
+                {
+                    done = true;
+
+
+                    byte[] bytedata = www.bytes;
+                    var str = System.Text.Encoding.Default.GetString(bytedata);
+                    Debug.Log("[KakaoMapAPI] byteData_str: " + str);
+
+                    kakao_return = JsonConvert.DeserializeObject<KakaoReturn>(str);
+                    break;
+                }
+            }
+            if (done == false)
+            {
+                return false;
+            }
+            return true;
+
         }
-        else 
+        catch (System.Exception e)
         {
-            string result = "null";
-            return result;
+            Debug.LogError(e);
+            return false;
         }
     }
+
 }
