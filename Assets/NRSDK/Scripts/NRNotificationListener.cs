@@ -9,7 +9,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace NRKernal
@@ -347,20 +346,20 @@ namespace NRKernal
         void Update()
         {
             // For Editor test
-            //if (Input.GetKeyDown(KeyCode.M))
+            //if (input.getkeydown(keycode.m))
             //{
-            //    var notifys = NotificationDict.Keys.ToArray();
-            //    this.Dispath(notifys[UnityEngine.Random.Range(0, notifys.Length - 1)], Level.Middle);
+            //    var notifys = notificationdict.keys.toarray();
+            //    this.dispath(notifys[unityengine.random.range(0, notifys.length - 1)], level.middle);
+            //} 
+            //if (input.getkeydown(keycode.n))
+            //{
+            //    var notifys = notificationdict.keys.toarray();
+            //    this.dispath(notifys[unityengine.random.range(0, notifys.length - 1)], level.high);
             //}
-            //if (Input.GetKeyDown(KeyCode.N))
+            //if (input.getkeydown(keycode.b))
             //{
-            //    var notifys = NotificationDict.Keys.ToArray();
-            //    this.Dispath(notifys[UnityEngine.Random.Range(0, notifys.Length - 1)], Level.High);
-            //}
-            //if (Input.GetKeyDown(KeyCode.B))
-            //{
-            //    var notifys = NotificationDict.Keys.ToArray();
-            //    this.Dispath(notifys[3], Level.High);
+            //    var notifys = notificationdict.keys.toarray();
+            //    this.dispath(notifys[3], level.high);
             //}
 
             m_TimeLast += Time.deltaTime;

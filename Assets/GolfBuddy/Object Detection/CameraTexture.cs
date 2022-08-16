@@ -7,8 +7,14 @@ using NRKernal;
 
 public class CameraTexture : MonoBehaviour
 {
-    public float timestamp;
+    //  Unity환경 Test용
+    public bool onUnity = true;
+    //
+    public ulong timestamp;
     public Texture2D textureFull;
+
+    public int width = 1280;
+    public int height = 720;
 
     //Test용
     [SerializeField] public Texture2D test_input;
@@ -35,7 +41,10 @@ public class CameraTexture : MonoBehaviour
     void Update()
     {
         onAir();
-        textureFull = test_input; 
+        if (onUnity)
+        {
+            textureFull = test_input;
+        }
     }
 
     public void onAir()

@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class GovAPI
 {
+    public string state;
     public RealTimeWeather rtweather;
     public float degree;
     public float speed;
@@ -33,11 +34,13 @@ public class GovAPI
             url += "&numOfRows=1000";
             url += "&dataType=JSON";
             url += "&base_date=" + (DateTime.Now.Year * 10000 + DateTime.Now.Month * 100 + DateTime.Now.Day);
-            url += "&base_time=" + (DateTime.Now.Hour * 100 + DateTime.Now.Minute);
+            int temp_time = (10000 + DateTime.Now.Hour * 100 + DateTime.Now.Minute);
+            url += "&base_time=" + temp_time.ToString().Substring(1, 4);
             url += "&nx=" + nx;
             url += "&ny=" + ny;
 
             Debug.Log(url);
+
 
             WWW www = new WWW(url);
 
@@ -55,7 +58,7 @@ public class GovAPI
 
                     byte[] bytedata = www.bytes;
                     var str = System.Text.Encoding.Default.GetString(bytedata);
-                    Debug.Log("[GovAPI] byteData_str: " + str);
+                    Debug.Log(str);
 
                     GovRoot govRoot = JsonConvert.DeserializeObject<GovRoot>(str);
                     
@@ -63,17 +66,23 @@ public class GovAPI
                     rtweather = new RealTimeWeather();
                     if(govRoot.response != null)
                     {
-                        rtweather.insertValues(govRoot.response.body.items);
-                        Debug.Log("[GoveAPI] response exists");
+                        Debug.Log(govRoot.response.header.resultMsg);
+                        state = govRoot.response.header.resultMsg;
+                        if (govRoot.response.header.resultMsg.Equals("NORMAL_SERVICE"))
+                        {
+                            rtweather.insertValues(govRoot.response.body.items); //가능하면 resultMsg로 처리
+                        }
+
+                        if (rtweather.vec != null && rtweather.wsd != null)
+                        {
+                            degree = float.Parse(rtweather.vec);
+                            Debug.Log(degree);
+                            speed = float.Parse(rtweather.wsd);
+                        }
+
+                        return true;
                     }
                     else { Debug.Log("[GoveAPI] response is NULL"); }
-
-                    if (rtweather.vec != null && rtweather.wsd != null)
-                    {
-                        degree = float.Parse(rtweather.vec);
-                        speed = float.Parse(rtweather.wsd);
-                        Debug.Log("D/S" + degree + ", " + speed);
-                    }
                     break;
                 }
             }

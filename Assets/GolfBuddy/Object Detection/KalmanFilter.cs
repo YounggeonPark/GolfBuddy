@@ -18,6 +18,11 @@ public class KalmanFilter
         y = predict(y_in);
     }
 
+    public void skip()
+    {
+
+    }
+
     #region Kalman Filter Prediction Body
 
     public int predict(int x)

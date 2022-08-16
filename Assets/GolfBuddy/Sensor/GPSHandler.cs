@@ -17,12 +17,14 @@ public class GPSHandler : MonoBehaviour
     //테스트용
     [SerializeField] Text text;
     public bool test_mode = true;
+    public bool onUnity = true;
+
     public float test_longitude = 128.07340f; //10m
     public float test_latitude = 34.83658f; //67m
-    private float start_real_long;
-    private float start_real_lat;
-    private float last_real_long;
-    private float last_real_lat;
+    public float start_real_long;
+    public float start_real_lat;
+    public float last_real_long;
+    public float last_real_lat;
 
     private void Start()
     {
@@ -37,6 +39,15 @@ public class GPSHandler : MonoBehaviour
             latitude = test_latitude;
 
             text.text = "TEST MODE\n" + longitude + ",  " + latitude;
+        }
+        else
+        {
+            StartCoroutine(GetLocation());
+            if (onUnity)
+            {
+                longitude = test_longitude;
+                latitude = test_latitude;
+            }
         }
     }
 
@@ -96,6 +107,11 @@ public class GPSHandler : MonoBehaviour
             {
                 last_real_lat = Input.location.lastData.latitude;
                 last_real_long = Input.location.lastData.longitude;
+                if (onUnity)
+                {
+                    last_real_lat = test_latitude;
+                    last_real_long = test_longitude;
+                }
             }
             else
             {
@@ -121,10 +137,14 @@ public class GPSHandler : MonoBehaviour
 
     public bool CheckInArea(TerrainData terrainData) {
 
-        if(longitude>terrainData.leftLong && longitude < terrainData.rightLong && latitude > terrainData.bottomLat && latitude < terrainData.topLat)
+        if(longitude > (float)terrainData.leftLong && longitude < (float)terrainData.rightLong && latitude > (float)terrainData.bottomLat && latitude < (float)terrainData.topLat)
         {
             return true;
         }
-        else { return false; }
+        else 
+        {
+            Debug.Log("골프장 밖"+longitude+",  "+ latitude);
+            return false; 
+        }
     }
 }

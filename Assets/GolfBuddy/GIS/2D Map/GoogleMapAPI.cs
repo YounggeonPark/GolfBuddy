@@ -200,7 +200,6 @@ public class GoogleMapAPI : MonoBehaviour
             }
         }
         tex.Apply();
-        Debug.Log("DrawCircle ¿€µø");
         return tex;
     }
 }

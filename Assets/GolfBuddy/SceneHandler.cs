@@ -2,67 +2,61 @@ using UnityEngine;
 
 public class SceneHandler : MonoBehaviour
 {
-    //  GolfZone ����
+    //  GolfZone ����
     [SerializeField] GPSHandler handler;
     [SerializeField] TerrainData southpark_hole1;
 
     [SerializeField] MapTransform trans = null;
 
-    [SerializeField] GameObject object1 = null;
-    [SerializeField] GameObject object2 = null;
-    [SerializeField] GameObject object3 = null;
+    //  Interface
+    //  Parent ����
+    [SerializeField]  GameObject parentsbuttons;
 
-    private bool trigger1 = false;
-    private bool trigger2 = false;
-    private bool trigger3 = false;
+
 
     public bool inGolfArea = false;
 
 
     private void Start()
     {
-
+        //   CloseALL();
     }
 
     private void Update()
     {
         inGolfArea = handler.CheckInArea(southpark_hole1);
     }
-
-    public void Map2D()
+    #region Parent Toggle
+    public void OpenParentObject(GameObject obj)
     {
-        //  2D ON
-        object1.SetActive(!trigger1);
-        trigger1 = !trigger1;
+        bool temp = obj.transform.GetChild(1).gameObject.active;
 
-        // 3D OFF
-        object2.SetActive(false);
-        trigger2 = false;
-    }
+        CloseALL();
 
-    public void Map3D()
-    {
-        if (inGolfArea)
+        for (int i = 1; i < obj.transform.childCount; i++)   //첫번째는 Text
         {
-            // 2D OFF
-            object1.SetActive(false);
-            trigger1 = false;
-
-            // 3D ON
-            object2.SetActive(!trigger2);
-            trigger2 = !trigger2;
-
-            trans.terrainMove();
-        }
-        else
-        {
-            Debug.Log("3D Map is unsupported on this area");
+            obj.transform.GetChild(i).gameObject.SetActive(!temp);
         }
     }
 
-    public void Compass()
+    // Close All Taps
+    public void CloseALL()
     {
-        object3.SetActive(!trigger3);
-        trigger3 = !trigger3;
+        for (int i = 0; i < parentsbuttons.transform.childCount; i++)   //첫번째는 Text
+        {
+            for (int j = 1; j < parentsbuttons.transform.GetChild(i).childCount; j++)   //첫번째는 Text
+            {
+                parentsbuttons.transform.GetChild(i).GetChild(j).gameObject.SetActive(false);
+            }
+        }
     }
+    #endregion
+
+    #region Child Toggle
+    public void ToggleChild(GameObject obj)
+    {
+        obj.SetActive(!obj.active);
+    }
+
+    #endregion
 }

@@ -34,7 +34,7 @@ namespace NRKernal
         /// </summary>
         /// <param name="timeStamp"> The specified time. </param>
         /// <returns></returns>
-        Pose GetHeadPoseAtTime(UInt64 timeStamp);
+        public Pose GetHeadPoseAtTime(UInt64 timeStamp);
     }
     
     /// <summary>
@@ -102,7 +102,7 @@ namespace NRKernal
         public bool UseRelative = false;
         /// <summary> The last reason. </summary>
         private LostTrackingReason m_LastReason = LostTrackingReason.INITIALIZING;
-        private IExternSlamProvider m_externSlamProvider = null;
+        public IExternSlamProvider m_externSlamProvider = null;
 
         /// <summary> The left camera. </summary>
         public Camera leftCamera;

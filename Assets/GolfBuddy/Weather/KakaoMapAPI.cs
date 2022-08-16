@@ -59,7 +59,7 @@ public class KakaoMapAPI
 
                     byte[] bytedata = www.bytes;
                     var str = System.Text.Encoding.Default.GetString(bytedata);
-                    Debug.Log("[KakaoMapAPI] byteData_str: " + str);
+                    //Debug.Log("[KakaoMapAPI] byteData_str: " + str);
 
                     kakao_return = JsonConvert.DeserializeObject<KakaoReturn>(str);
                     break;

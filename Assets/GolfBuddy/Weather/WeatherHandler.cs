@@ -2,21 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+using UnityEngine.UI;
 
 public class WeatherHandler : MonoBehaviour
 {
     // 위치정보
     [SerializeField] GPSHandler gps;
-    public string code;
+    [SerializeField] Text weather_detail;
     public int nx = 0;
     public int ny = 0;
     public float degree;
+    public string direction;
     public float speed;
+    private string code;
 
-    public bool updated = false;
-    private string url;
+    // trigger
+    public bool update = true;
 
+    // API
     private KakaoMapAPI kakao;
     private GovAPI gov;
 
@@ -28,7 +31,7 @@ public class WeatherHandler : MonoBehaviour
 
     void Update()
     {
-        if (!updated)
+        if (update)
         {
             #region Kakao REST API ( GPS -> 행정구역 ) // rest api 수정필요
             kakao = new KakaoMapAPI(gps.longitude, gps.latitude);
@@ -52,7 +55,7 @@ public class WeatherHandler : MonoBehaviour
                     nx = (int)data_excel[i]["Nx"];
                     ny = (int)data_excel[i]["Ny"];
 
-                    Debug.Log("[현재위치]법정코드:" + code + ", Nx:" + nx + " ,Ny:" + ny);
+                    //Debug.Log("[현재위치]법정코드:" + code + ", Nx:" + nx + " ,Ny:" + ny);
                 }
             }
             #endregion
@@ -60,13 +63,142 @@ public class WeatherHandler : MonoBehaviour
             #region 공공데이터API
             gov = new GovAPI(nx, ny);
             gov.GovREST();
-            degree = gov.degree;
-            speed = gov.speed;
+
+            
+            if(gov.degree != -1 && gov.speed != -1)
+            {
+                degree = gov.degree;
+                speed = gov.speed;
+            } else
+            {
+                degree = 1000;
+                speed = 0;
+            }
+
+            if(gov.state.Equals("NORMAL_SERVICE"))
+            {
+                UpdateDetails();
+            }
+
+            // convert degree to Direction
+            float num = ((degree + 22.5f * 0.5f) /22.5f);
+            #region 16방위 변환
+            switch ((int)num)
+            {
+                case 0:
+                    direction = "N";
+                    break;
+                case 1:
+                    direction = "NNE";
+                    break;
+                case 2:
+                    direction = "NE";
+                    break;
+                case 3:
+                    direction = "ENE";
+                    break;
+                case 4:
+                    direction = "E";
+                    break;
+                case 5:
+                    direction = "ESE";
+                    break;
+                case 6:
+                    direction = "SE";
+                    break;
+                case 7:
+                    direction = "SSE";
+                    break;
+                case 8:
+                    direction = "S";
+                    break;
+                case 9:
+                    direction = "SSW";
+                    break;
+                case 10:
+                    direction = "SW";
+                    break;
+                case 11:
+                    direction = "WSW";
+                    break;
+                case 12:
+                    direction = "W";
+                    break;
+                case 13:
+                    direction = "WNW";
+                    break;
+                case 14:
+                    direction = "NW";
+                    break;
+                case 15:
+                    direction = "NNW";
+                    break;
+                case 16:
+                    direction = "N";
+                    break;
+                default:
+                    direction = "LOSS";
+                    break;
+            }
             #endregion
 
-            updated = true;
+
+
+            #endregion
+
+            update = false;
         }
     }
 
 
+    private void UpdateDetails()
+    {
+        RealTimeWeather rt = gov.rtweather;
+        weather_detail.text
+            = "" +"기온: "+ rt.t1h + "℃"
+            +"\n" + "습도: "+ rt.reh + "%"
+            +"\n" + "풍향: "+ rt.vec + "˚"
+            +"\n" + "풍속: "+ rt.wsd + " ㎧ "
+            +"\n" + "날씨: "+ PTY2Str(rt.pty)
+            + "\n" + "1시간 강수량: "+ rt.rn1 + "mm"
+            ;
+    }
+    //  데이터 변환
+    private string PTY2Str(string pty)
+    {
+        switch (Int16.Parse(pty))
+        {
+            case 0:
+                return "없음";
+                break;
+            case 1:
+                return "비";
+                break;
+            case 2:
+                return "비/눈";
+                break;
+            case 3:
+                return "눈";
+                break;
+            case 5:
+                return "빗방울";
+                break;
+            case 6:
+                return "빗방울눈날림";
+                break;
+            case 7:
+                return "눈날림";
+                break;
+            default:
+                return "데이터 X";
+                break;
+        }
+
+    }
+
+    //실행형
+    public void RefreshWeather()
+    {
+        update = true;
+    }
 }
