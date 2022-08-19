@@ -7,64 +7,68 @@ using UnityEngine.Android;
 
 public class GPSHandler : MonoBehaviour
 {
-    //실제 데이터
-    public float longitude = 0;
+    //  Toggle
+    [SerializeField] public OptionSetting setting;
+    public bool test_mode;
+    public bool onUnity;
+
+    //  실제 데이터
+    public float longitude = 0;  //실제데이터
     public float latitude = 0;
 
-    public bool isUpdating;
-    public bool updateGPS = false;
+    public bool isUpdating = false;
+    public bool isUpdated = false;
 
-    //테스트용
+    //  테스트용 Coordinate 연산
     [SerializeField] Text text;
-    public bool test_mode = true;
-    public bool onUnity = true;
-
-    public float test_longitude = 128.07340f; //10m
-    public float test_latitude = 34.83658f; //67m
-    public float start_real_long;
-    public float start_real_lat;
-    public float last_real_long;
-    public float last_real_lat;
+    public float startLong;
+    public float startLat;
+    private bool start = true;
+    public float lastLong;
+    public float lastLat;
 
     private void Start()
     {
-        StartCoroutine(GetLocation());
-        if (test_mode)
-        {
-            start_real_long = last_real_long;
-            start_real_lat = last_real_lat;
-
-            //테스트 기준점 + 변화량
-            longitude = test_longitude;
-            latitude = test_latitude;
-
-            text.text = "TEST MODE\n" + longitude + ",  " + latitude;
-        }
-        else
-        {
-            StartCoroutine(GetLocation());
-            if (onUnity)
-            {
-                longitude = test_longitude;
-                latitude = test_latitude;
-            }
-        }
+        onUnity = false;
+        test_mode = false;
     }
 
     private void Update()
     {
         if (!isUpdating)
         {
+            Debug.Log("GPS GetLocation started");
             StartCoroutine(GetLocation());
             isUpdating = !isUpdating;
 
-            if (test_mode)
+            if (start)
             {
-                longitude = test_longitude + (last_real_long - start_real_long);
-                latitude = test_latitude + (last_real_lat - start_real_lat);
+                start = false;
+                startLong = lastLong;
+                startLat = lastLat;
             }
         }
+
+        #region 테스트
+        if (test_mode)
+        {
+            longitude = 128.07340f + (lastLong - startLong);
+            latitude = 34.83658f + (lastLat - startLat);
+        }
+        #endregion
+
+        #region 일반
+        else
+        {
+            longitude = lastLong;
+            latitude = lastLat;
+        }
+        #endregion
+
+        text.text = "LON: " + longitude.ToString("F3") + ", LAT: " + latitude.ToString("F3");
     }
+
+
     IEnumerator GetLocation()
     {
         if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation))
@@ -90,6 +94,7 @@ public class GPSHandler : MonoBehaviour
         // Service didn't initialize in 20 seconds
         if (maxWait < 1)
         {
+
             print("Timed out");
             yield break;
         }
@@ -102,22 +107,9 @@ public class GPSHandler : MonoBehaviour
         }
         else
         {
-            updateGPS = true;
-            if (test_mode)
-            {
-                last_real_lat = Input.location.lastData.latitude;
-                last_real_long = Input.location.lastData.longitude;
-                if (onUnity)
-                {
-                    last_real_lat = test_latitude;
-                    last_real_long = test_longitude;
-                }
-            }
-            else
-            {
-                latitude = Input.location.lastData.latitude;
-                longitude = Input.location.lastData.longitude;
-            }
+            isUpdated = true;
+            lastLat = Input.location.lastData.latitude;
+            lastLong = Input.location.lastData.longitude;
         }
 
         // Stop service if there is no need to query location updates continuously
@@ -135,7 +127,7 @@ public class GPSHandler : MonoBehaviour
         return latitude;
     }
 
-    public bool CheckInArea(TerrainData terrainData) {
+    public bool CheckInArea(TerrainDataPos terrainData) {
 
         if(longitude > (float)terrainData.leftLong && longitude < (float)terrainData.rightLong && latitude > (float)terrainData.bottomLat && latitude < (float)terrainData.topLat)
         {
@@ -143,8 +135,12 @@ public class GPSHandler : MonoBehaviour
         }
         else 
         {
-            Debug.Log("골프장 밖"+longitude+",  "+ latitude);
             return false; 
         }
+    }
+
+    public void TestMode(bool boo)
+    {
+        test_mode = boo;
     }
 }

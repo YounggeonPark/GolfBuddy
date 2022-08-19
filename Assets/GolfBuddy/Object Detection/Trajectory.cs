@@ -16,4 +16,12 @@ public class Trajectory : MonoBehaviour
     {
         // LineFitting from 'detections'
     }
+
+    public void CheckData()
+    {
+        for(int i = 0; i < detections.Count; i++)
+        {
+            Debug.Log(detections[i].eulerAngle);
+        }
+    }
 }

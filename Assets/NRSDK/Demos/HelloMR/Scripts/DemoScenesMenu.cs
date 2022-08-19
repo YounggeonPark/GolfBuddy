@@ -19,12 +19,15 @@ namespace NRKernal.NRExamples
         public Transform m_ButtonsRoot;
         /// <summary> The buttons. </summary>
         private UserDefineButton[] Buttons;
+        private bool invisible;
 
         /// <summary> Starts this object. </summary>
         void Start()
         {
             Buttons = gameObject.GetComponentsInChildren<UserDefineButton>(true);
             m_ButtonsRoot.gameObject.SetActive(false);
+
+            invisible = m_ButtonsRoot.gameObject.active;
 
             foreach (var item in Buttons)
             {
@@ -54,6 +57,12 @@ namespace NRKernal.NRExamples
         {
             return (SceneUtility.GetBuildIndexByScenePath(name) != -1) &&
                 !SceneManager.GetActiveScene().name.Equals(name);
+        }
+
+        public void TriggerInvisible()
+        {
+            m_ButtonsRoot.gameObject.active = !invisible;
+            invisible = !invisible;
         }
     }
 }

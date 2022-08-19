@@ -201,6 +201,7 @@ namespace NRKernal
         /// <summary> Starts this object. </summary>
         private void Start()
         {
+
             if (isDirty)
             {
                 return;

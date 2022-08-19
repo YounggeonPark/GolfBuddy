@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,8 +11,9 @@ public class CustomVisionAPI : MonoBehaviour
 
     // Values
     private static string key = "660e24abf0504578a7abc88a5ad82c49";
-    private string url = "https://metaversedevelopergolfball-prediction.cognitiveservices.azure.com" +
-        "/customvision/v3.0/Prediction/eadf6bf6-1937-42e6-a028-06d317943443/detect/iterations/Iteration1/image?";
+    private string url = "https://metaversedevelopergolfball-prediction.cognitiveservices.azure.com/customvision/v3.0/Prediction/bd435c16-492a-4c5a-b718-bbc3391e5341/detect/iterations/";
+    //private string url = "/iterations/Iteration1/image?";
+    public string model = "FlippedDetect/image";
     Dictionary<string, string> headers = new Dictionary<string, string>();
 
     private void Start()
@@ -35,7 +37,8 @@ public class CustomVisionAPI : MonoBehaviour
             bool done = false;
 
             byte[] byteData = texture.EncodeToPNG();
-            www = new WWW(url, byteData, headers);
+
+            www = new WWW(url+model, byteData, headers);
 
             while (delay > timer)
             {
@@ -55,6 +58,7 @@ public class CustomVisionAPI : MonoBehaviour
             }
             if (done == false)
             {
+                Debug.Log("Load Fail");
                 return false;
             }
             return true;

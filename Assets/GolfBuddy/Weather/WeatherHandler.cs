@@ -16,6 +16,8 @@ public class WeatherHandler : MonoBehaviour
     public float speed;
     private string code;
 
+    private Text noticeText;
+
     // trigger
     public bool update = true;
 
@@ -26,7 +28,7 @@ public class WeatherHandler : MonoBehaviour
 
     void Start()
     {
-
+        noticeText = GameObject.FindGameObjectWithTag("NoticeText").GetComponent<Text>();
     }
 
     void Update()
@@ -37,7 +39,7 @@ public class WeatherHandler : MonoBehaviour
             kakao = new KakaoMapAPI(gps.longitude, gps.latitude);
 
             kakao.GPS2Npos();
-            if(kakao.kakao_return != null)
+            if(kakao.kakao_return != null && kakao.kakao_return.documents != null && kakao.kakao_return.documents.Count > 0)
             {
                 code=kakao.kakao_return.documents[0].code;
                 long temp = Int64.Parse(code);
@@ -65,17 +67,21 @@ public class WeatherHandler : MonoBehaviour
             gov.GovREST();
 
             
-            if(gov.degree != -1 && gov.speed != -1)
+            if(gov.degree != -1 && gov.speed != -1 && gov.rtweather !=null)
             {
                 degree = gov.degree;
                 speed = gov.speed;
+                //  NoticeÃ¢¿¡ Ãâ·Â
+                noticeText.text = "Direction:" + direction + ", Speed: " + speed;
             } else
             {
                 degree = 1000;
                 speed = 0;
+                //  NoticeÃ¢¿¡ Ãâ·Â
+                noticeText.text = "Weather Server is DOWN";
             }
 
-            if(gov.state.Equals("NORMAL_SERVICE"))
+            if (gov.state != null && gov.state.Equals("NORMAL_SERVICE"))
             {
                 UpdateDetails();
             }
@@ -170,28 +176,20 @@ public class WeatherHandler : MonoBehaviour
         {
             case 0:
                 return "¾øÀ½";
-                break;
             case 1:
                 return "ºñ";
-                break;
             case 2:
                 return "ºñ/´«";
-                break;
             case 3:
                 return "´«";
-                break;
             case 5:
                 return "ºø¹æ¿ï";
-                break;
             case 6:
                 return "ºø¹æ¿ï´«³¯¸²";
-                break;
             case 7:
                 return "´«³¯¸²";
-                break;
             default:
                 return "µ¥ÀÌÅÍ X";
-                break;
         }
 
     }

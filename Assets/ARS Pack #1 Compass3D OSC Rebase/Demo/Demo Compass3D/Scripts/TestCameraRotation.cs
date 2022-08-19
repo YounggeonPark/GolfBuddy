@@ -3,10 +3,17 @@ using ARS;
 
 public class TestCameraRotation : MonoBehaviour {
 
-    void Update()
+    private void Start()
     {
         transform.rotation = Compass3D.CameraRotation;
-        if (Input.GetMouseButtonDown(0))
-            Compass3D.ResetNorth();
+    }
+
+    void Update()
+    {
+    }
+
+    public void ResetNorth()
+    {
+        Compass3D.ResetNorth();
     }
 }

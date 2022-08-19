@@ -27,21 +27,21 @@ extern void VideoPlayer_get_clip_m08BCE17C4E685C87151B418AA3CE88294F6A96E9 (void
 // 0x00000007 System.Void UnityEngine.Video.VideoPlayer::set_targetTexture(UnityEngine.RenderTexture)
 extern void VideoPlayer_set_targetTexture_mCFEE8D0342A11CD20CF51A3C467BA745BEB49E02 (void);
 // 0x00000008 System.Void UnityEngine.Video.VideoPlayer::InvokePrepareCompletedCallback_Internal(UnityEngine.Video.VideoPlayer)
-extern void VideoPlayer_InvokePrepareCompletedCallback_Internal_mC94FCD225C9CABC2AC72329FADF1D6955409D1B8 (void);
+extern void VideoPlayer_InvokePrepareCompletedCallback_Internal_mF483B141E9AF0B553FF87B32A0EE54E40BE21EFD (void);
 // 0x00000009 System.Void UnityEngine.Video.VideoPlayer::InvokeFrameReadyCallback_Internal(UnityEngine.Video.VideoPlayer,System.Int64)
-extern void VideoPlayer_InvokeFrameReadyCallback_Internal_m5183AE08C934A0B2F3DFC7DA0D6E19F6967D7E78 (void);
+extern void VideoPlayer_InvokeFrameReadyCallback_Internal_mF5F02FE6BBEA70C62108F3FD836E1B378CB9F5E7 (void);
 // 0x0000000A System.Void UnityEngine.Video.VideoPlayer::InvokeLoopPointReachedCallback_Internal(UnityEngine.Video.VideoPlayer)
-extern void VideoPlayer_InvokeLoopPointReachedCallback_Internal_m255A7C42DD95CA87E8F10AD275558785B245104E (void);
+extern void VideoPlayer_InvokeLoopPointReachedCallback_Internal_m090FD00BB12721EB3CEB337E30687D5DE6B1EBD6 (void);
 // 0x0000000B System.Void UnityEngine.Video.VideoPlayer::InvokeStartedCallback_Internal(UnityEngine.Video.VideoPlayer)
-extern void VideoPlayer_InvokeStartedCallback_Internal_mFE37D79FFF07321BD1FB1EF8265B474D314B4FB3 (void);
+extern void VideoPlayer_InvokeStartedCallback_Internal_mBDD186C95E57DD264CD0957FA46D9F65728C67EF (void);
 // 0x0000000C System.Void UnityEngine.Video.VideoPlayer::InvokeFrameDroppedCallback_Internal(UnityEngine.Video.VideoPlayer)
-extern void VideoPlayer_InvokeFrameDroppedCallback_Internal_m18C4083C7AFB50DCF98E3054CA3BE7572D5331F5 (void);
+extern void VideoPlayer_InvokeFrameDroppedCallback_Internal_m6E6B6353404AF76AB16D1433B8553659B0744DC0 (void);
 // 0x0000000D System.Void UnityEngine.Video.VideoPlayer::InvokeErrorReceivedCallback_Internal(UnityEngine.Video.VideoPlayer,System.String)
-extern void VideoPlayer_InvokeErrorReceivedCallback_Internal_m84709AD9F2838559178CAD52C7D12502C5F8A044 (void);
+extern void VideoPlayer_InvokeErrorReceivedCallback_Internal_m91E59ED70189824AB2C5D0AEB47742130EE98574 (void);
 // 0x0000000E System.Void UnityEngine.Video.VideoPlayer::InvokeSeekCompletedCallback_Internal(UnityEngine.Video.VideoPlayer)
-extern void VideoPlayer_InvokeSeekCompletedCallback_Internal_m4A761204DC77EB3210910D617A06BE5F506C63AE (void);
+extern void VideoPlayer_InvokeSeekCompletedCallback_Internal_m62AEB9826ACE95B88CC60220375C1C7EF5EEEE1F (void);
 // 0x0000000F System.Void UnityEngine.Video.VideoPlayer::InvokeClockResyncOccurredCallback_Internal(UnityEngine.Video.VideoPlayer,System.Double)
-extern void VideoPlayer_InvokeClockResyncOccurredCallback_Internal_m81C2010C7BA5CD6C9CA8096CE3D4D374511CDF76 (void);
+extern void VideoPlayer_InvokeClockResyncOccurredCallback_Internal_m743B8421E9538761141364EBDCEBC673BA58D8C6 (void);
 // 0x00000010 System.Void UnityEngine.Video.VideoPlayer/EventHandler::.ctor(System.Object,System.IntPtr)
 extern void EventHandler__ctor_mFCF62E0BB29DD3D2B2F1306BD8657E374CF60903 (void);
 // 0x00000011 System.Void UnityEngine.Video.VideoPlayer/EventHandler::Invoke(UnityEngine.Video.VideoPlayer)
@@ -67,14 +67,14 @@ static Il2CppMethodPointer s_methodPointers[23] =
 	VideoClip_get_height_m425279B19CB8EB25DD480DC888DFB7B7108788B4,
 	VideoPlayer_get_clip_m08BCE17C4E685C87151B418AA3CE88294F6A96E9,
 	VideoPlayer_set_targetTexture_mCFEE8D0342A11CD20CF51A3C467BA745BEB49E02,
-	VideoPlayer_InvokePrepareCompletedCallback_Internal_mC94FCD225C9CABC2AC72329FADF1D6955409D1B8,
-	VideoPlayer_InvokeFrameReadyCallback_Internal_m5183AE08C934A0B2F3DFC7DA0D6E19F6967D7E78,
-	VideoPlayer_InvokeLoopPointReachedCallback_Internal_m255A7C42DD95CA87E8F10AD275558785B245104E,
-	VideoPlayer_InvokeStartedCallback_Internal_mFE37D79FFF07321BD1FB1EF8265B474D314B4FB3,
-	VideoPlayer_InvokeFrameDroppedCallback_Internal_m18C4083C7AFB50DCF98E3054CA3BE7572D5331F5,
-	VideoPlayer_InvokeErrorReceivedCallback_Internal_m84709AD9F2838559178CAD52C7D12502C5F8A044,
-	VideoPlayer_InvokeSeekCompletedCallback_Internal_m4A761204DC77EB3210910D617A06BE5F506C63AE,
-	VideoPlayer_InvokeClockResyncOccurredCallback_Internal_m81C2010C7BA5CD6C9CA8096CE3D4D374511CDF76,
+	VideoPlayer_InvokePrepareCompletedCallback_Internal_mF483B141E9AF0B553FF87B32A0EE54E40BE21EFD,
+	VideoPlayer_InvokeFrameReadyCallback_Internal_mF5F02FE6BBEA70C62108F3FD836E1B378CB9F5E7,
+	VideoPlayer_InvokeLoopPointReachedCallback_Internal_m090FD00BB12721EB3CEB337E30687D5DE6B1EBD6,
+	VideoPlayer_InvokeStartedCallback_Internal_mBDD186C95E57DD264CD0957FA46D9F65728C67EF,
+	VideoPlayer_InvokeFrameDroppedCallback_Internal_m6E6B6353404AF76AB16D1433B8553659B0744DC0,
+	VideoPlayer_InvokeErrorReceivedCallback_Internal_m91E59ED70189824AB2C5D0AEB47742130EE98574,
+	VideoPlayer_InvokeSeekCompletedCallback_Internal_m62AEB9826ACE95B88CC60220375C1C7EF5EEEE1F,
+	VideoPlayer_InvokeClockResyncOccurredCallback_Internal_m743B8421E9538761141364EBDCEBC673BA58D8C6,
 	EventHandler__ctor_mFCF62E0BB29DD3D2B2F1306BD8657E374CF60903,
 	EventHandler_Invoke_m8A3288B6DF1FE2699A58EA22D0B830BB20E94E15,
 	ErrorEventHandler__ctor_m78073CD72C64AAFAF54A01702919A847185F4C58,
@@ -93,29 +93,29 @@ static Il2CppTokenAdjustorThunkPair s_adjustorThunks[2] =
 };
 static const int32_t s_InvokerIndices[23] = 
 {
-	3926,
-	2387,
-	4008,
-	3995,
-	3995,
-	3919,
-	3225,
-	5992,
-	5558,
-	5992,
-	5992,
-	5992,
-	5561,
-	5992,
-	5556,
-	1790,
-	3225,
-	1790,
-	1792,
-	1790,
-	1789,
-	1790,
-	1786,
+	5159,
+	3177,
+	5260,
+	5247,
+	5247,
+	5152,
+	4258,
+	7821,
+	7217,
+	7821,
+	7821,
+	7821,
+	7220,
+	7821,
+	7215,
+	2431,
+	4258,
+	2431,
+	2433,
+	2431,
+	2430,
+	2431,
+	2427,
 };
 IL2CPP_EXTERN_C const Il2CppCodeGenModule g_UnityEngine_VideoModule_CodeGenModule;
 const Il2CppCodeGenModule g_UnityEngine_VideoModule_CodeGenModule = 

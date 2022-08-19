@@ -4,7 +4,7 @@ public class SceneHandler : MonoBehaviour
 {
     //  GolfZone ����
     [SerializeField] GPSHandler handler;
-    [SerializeField] TerrainData southpark_hole1;
+    [SerializeField] TerrainDataPos southpark_hole1;
 
     [SerializeField] MapTransform trans = null;
 

@@ -3,8 +3,14 @@ using ARS;
 
 public class TestObjectRotation : MonoBehaviour
 {
-    void Update()
+    void Start()
     {
         transform.rotation = Compass3D.ObjectRotation;
+
+    }
+
+    void Update()
+    {
+        //transform.rotation = Compass3D.ObjectRotation;
     }
 }

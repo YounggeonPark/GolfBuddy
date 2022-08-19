@@ -8,9 +8,11 @@ public class serverTraccar : MonoBehaviour
 {
     public GPSHandler gps;
 
+    public string ec2_address = "ec2-15-164-104-138";
+
     private static string uri = "http://ec2-15-164-104-138.ap-northeast-2.compute.amazonaws.com:5055";
     private static long userId = 100001;
-    public bool server_state;
+    public bool server_state = false;
 
     private double longitude;
     private double latitude;
@@ -31,7 +33,7 @@ public class serverTraccar : MonoBehaviour
     {
         currTime += Time.deltaTime;
 
-        if (currTime > 5)
+        if (currTime > 10)
         {
             updatePos();
             currTime = 0;
@@ -49,11 +51,16 @@ public class serverTraccar : MonoBehaviour
             if (server_state)
             {
                 data = "/?id=" + userId + "&lat=" + latitude + "&lon=" + longitude + "&timestamp=" + timedata + "&hdop=0&altitude=68.4&speed=0";
-                string send = uri + data;
+                string send = "http://"+ ec2_address + ".ap-northeast-2.compute.amazonaws.com:5055" + data;
                 // Post on Server
                 WWW www = new WWW(send);
                 Debug.Log("[Server] UPLOAD_Traccar GPS location");
             }
         }
+    }
+
+    public void TraccarON()
+    {
+        server_state = true;
     }
 }

@@ -22,7 +22,7 @@ public class CoordinateHandler
     public float pixelY;
     public float real_elevation; // Elevation
 
-    public CoordinateHandler(TerrainData terrainData)
+    public CoordinateHandler(TerrainDataPos terrainData)
     {
         #region Terrain데이터 초기화
         terrain_Resolution = 512f; //Terrain.activeTerrain.terrainData.alphamapResolution;
@@ -76,10 +76,30 @@ public class CoordinateHandler
         return new Vector3(gps_long, 0, gps_lat);
     }
 
-    public Vector3 unity2d2gps(Vector3 objectPos)
+    public static Vector3 unity2d2gps(Vector3 objectPos)
     {
-        
+        // 사용 안됨 아직
         return new Vector3(0, 0, 0);
     }
     #endregion
+
+
+    public static float GPStoMeter(float lon1, float lat1, float lon2, float lat2)
+    {
+        float horizontal = Mathf.Abs(lon1 * 10000 - lon2 * 10000) * 11;
+        float vertical = Mathf.Abs(lat1 * 10000 - lat2 * 10000) * 6; // meter
+
+        return Mathf.Sqrt(Mathf.Pow(horizontal, 2) + Mathf.Pow(vertical, 2));
+    }
+
+    public static float GPStoMeterNorth(float lat1, float lat2)
+    {
+        return Mathf.Abs(lat1 * 10000 - lat2 * 10000) * 6; // meter
+    }
+
+    public static float GPStoMeterEast(float lon1, float lon2)
+    {
+        return Mathf.Abs(lon1 * 10000 - lon2 * 10000) * 11;
+    }
+
 }

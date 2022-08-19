@@ -1,27 +1,40 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CompassHandler : MonoBehaviour
 {
-
-    #region µ¥ÀÌÅÍ
+    //
+    // ï¿½ï¿½ï¿½:
     //     final object rotation
     private static Quaternion _objectRotation = Quaternion.identity;
 
+    //
+    // ï¿½ï¿½ï¿½:
     //     the orientation the computations want to set
     private static Quaternion _targetRotation;
 
+    //
+    // ï¿½ï¿½ï¿½:
     //     1st accelerometer and 2nd compass filter
     private static Vector3 _accFilter;
 
+    //
+    // ï¿½ï¿½ï¿½:
     //     1st accelerometer and 2nd compass filter
     private static Vector3 _compassFilter;
 
+    //
+    // ï¿½ï¿½ï¿½:
     //     resetNorthQuaternion
     private static Quaternion resetNorthQuaternion = Quaternion.identity;
 
+    //
+    // ï¿½ï¿½ï¿½:
     //     1st noisy compass filter
     private static Vector3 _oldCompassFilter;
 
+    //
+    // ï¿½ï¿½ï¿½:
     //     Compute the object rotation based on the compass and acceleromenter orientation
     public static Quaternion ObjectRotation
     {
@@ -32,6 +45,8 @@ public class CompassHandler : MonoBehaviour
         }
     }
 
+    //
+    // ï¿½ï¿½ï¿½:
     //     Compute the camera rotation based on the compass and acceleromenter orientation
     public static Quaternion CameraRotation
     {
@@ -42,23 +57,114 @@ public class CompassHandler : MonoBehaviour
         }
     }
 
-    #endregion
-
-    private void Start()
+    //
+    // ï¿½ï¿½ï¿½:
+    //     Sets the front view as North to the virtual compass
+    public static void ResetNorth()
     {
+        if (!Input.compass.enabled)
+        {
+            Input.compass.enabled = true;
+        }
 
+        if (Input.compass.enabled)
+        {
+            Quaternion R = Quaternion.identity;
+            gravityGeomagneticToUnityQuaternion(ref R, Input.acceleration, fixRawCompassAcordingScreen(Input.compass.rawVector));
+            resetNorthQuaternion = Quaternion.Euler(0f, 0f - (Quaternion.Euler(90f, 0f, 0f) * Quaternion.Inverse(R)).eulerAngles.y, 0f);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    //
+    // ï¿½ï¿½ï¿½:
+    //     Computes the orientation based on accelerometer and compass. If the compass is
+    //     not enabled, it enables it.
+    //
+    // ï¿½ï¿½È¯ ï¿½ï¿½:
+    //     void
+    private static void ComputeOrientationFromInputs()
     {
+        if (!Input.compass.enabled)
+        {
+            Input.compass.enabled = true;
+        }
 
+        if (Input.compass.enabled)
+        {
+            _accFilter = Vector3.Lerp(_accFilter, Input.acceleration, 0.0625f);
+            Vector3 vector = Input.compass.rawVector;
+            if (Vector3.Distance(_oldCompassFilter, vector) < 2.2f)
+            {
+                vector = _oldCompassFilter;
+            }
+
+            _oldCompassFilter = vector;
+            _compassFilter = Vector3.Lerp(_compassFilter, fixRawCompassAcordingScreen(vector), 0.125f);
+            Quaternion R = _targetRotation;
+            gravityGeomagneticToUnityQuaternion(ref R, _accFilter, _compassFilter);
+            if (Quaternion.Angle(R, _targetRotation) > 2f)
+            {
+                _targetRotation = R;
+            }
+
+            _objectRotation = Quaternion.Slerp(_objectRotation, _targetRotation, 0.125f);
+        }
     }
-    public Vector3 getAccel()
+
+    //
+    // ï¿½ï¿½ï¿½:
+    //     Fix the raw compass according the current screen orientation
+    //
+    // ï¿½Å°ï¿½ ï¿½ï¿½ï¿½ï¿½:
+    //   input:
+    //     raw compass vector
+    //
+    // ï¿½ï¿½È¯ ï¿½ï¿½:
+    //     the unity corrected compass vector
+    private static Vector3 fixRawCompassAcordingScreen(Vector3 input)
     {
-        return Input.acceleration;
+        /*
+        if (Screen.orientation == ScreenOrientation.Portrait)
+        {
+            return input;
+        }
+
+        if (Screen.orientation == ScreenOrientation.LandscapeLeft)
+        {
+            return Quaternion.Euler(0f, 0f, 90f) * input;
+        }
+
+        if (Screen.orientation == ScreenOrientation.LandscapeRight)
+        {
+            return Quaternion.Euler(0f, 0f, -90f) * input;
+        }
+
+        if (Screen.orientation == ScreenOrientation.PortraitUpsideDown)
+        {
+            return Quaternion.Euler(0f, 0f, 180f) * input;
+        }*/
+        //return Quaternion.Euler(0f, 0f, 0f) * input;
+        return Quaternion.Euler(180f, 0f, 0f) * input;
     }
 
+    //
+    // ï¿½ï¿½ï¿½:
+    //     Computes the unity object rotation quaternion based on the gravity and geomagnetic.
+    //     OBS.: the geomagnetic must be fixed because unity gives it as the raw sensor
+    //     data. the gravity in Unity is measured in G, so it is 1.0 instead 9.81 .
+    //
+    // ï¿½Å°ï¿½ ï¿½ï¿½ï¿½ï¿½:
+    //   R:
+    //     The result rotation
+    //
+    //   gravity:
+    //     The current Unity gravity
+    //
+    //   geomagnetic:
+    //     The fixed compass vector
+    //
+    // ï¿½ï¿½È¯ ï¿½ï¿½:
+    //     True if it is possible to compute the rotation. False otherwise
     private static bool gravityGeomagneticToUnityQuaternion(ref Quaternion R, Vector3 gravity, Vector3 geomagnetic)
     {
         gravity.x *= -1f;
@@ -85,76 +191,4 @@ public class CompassHandler : MonoBehaviour
         R = Quaternion.LookRotation(forward, vector) * Quaternion.Euler(-90f, 0f, 0f);
         return true;
     }
-
-
-    private static Vector3 fixRawCompassAcordingScreen(Vector3 input)
-    {
-        if (Screen.orientation == ScreenOrientation.Portrait)
-        {
-            return input;
-        }
-
-        if (Screen.orientation == ScreenOrientation.LandscapeLeft)
-        {
-            return Quaternion.Euler(0f, 0f, 90f) * input;
-        }
-
-        if (Screen.orientation == ScreenOrientation.LandscapeRight)
-        {
-            return Quaternion.Euler(0f, 0f, -90f) * input;
-        }
-
-        if (Screen.orientation == ScreenOrientation.PortraitUpsideDown)
-        {
-            return Quaternion.Euler(0f, 0f, 180f) * input;
-        }
-
-        return input;
-    }
-
-
-    //
-    // ¿ä¾à:
-    //     Computes the orientation based on accelerometer and compass. If the compass is
-    //     not enabled, it enables it.
-    //
-    // ¹ÝÈ¯ °ª:
-    //     void
-    private static void ComputeOrientationFromInputs()
-    {
-        if (!Input.compass.enabled)
-        {
-            Input.compass.enabled = true;
-        }
-
-        if (Input.compass.enabled)
-        {
-            _accFilter = Vector3.Lerp(_accFilter, Input.acceleration, 0.0625f);
-            Vector3 vector = Input.compass.rawVector;
-            if (Vector3.Distance(_oldCompassFilter, vector) < 2.2f)
-            {
-                vector = _oldCompassFilter;
-            }
-
-            _oldCompassFilter = vector;
-
-            //*************ÆíÁýÇØ*************
-
-            //_compassFilter = Vector3.Lerp(_compassFilter, fixRawCompassAcordingScreen(vector), 0.125f);
-            Vector3 vec = Quaternion.Euler(-90f, 0f, 0f) * vector; // rotate XÃà -90µµ
-            _compassFilter = Vector3.Lerp(_compassFilter, vec, 0.125f);
-
-            //********************************
-
-            Quaternion R = _targetRotation;
-            gravityGeomagneticToUnityQuaternion(ref R, _accFilter, _compassFilter);
-            if (Quaternion.Angle(R, _targetRotation) > 2f)
-            {
-                _targetRotation = R;
-            }
-
-            _objectRotation = Quaternion.Slerp(_objectRotation, _targetRotation, 0.125f);
-        }
-    }
-
 }

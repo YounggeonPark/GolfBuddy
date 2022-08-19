@@ -2,194 +2,227 @@ using System.Collections.Generic;
 using UnityEngine;
 using NRKernal;
 using System;
+using UnityEngine.UI;
 
 public class ObjectDetection : MonoBehaviour
 {
-    //Texture처리;
-    private static int cropSize = 400;
-    public Texture2D texture_full;
-    public Texture2D texture_cropped;
-
-    public int detecting_center_x = 0; public int detecting_center_y = 0;
-    public int start_x; public int start_y;
-
-    //Method 선택
-    [SerializeField] CustomVisionAPI customvision;
+    #region Texture Source 처리
     [SerializeField] CameraTexture source;
+    [SerializeField] RawImage afterview;
+    [SerializeField] RawImage preview;
+    public Texture2D textureSource;
+    public Texture2D textureCropped;
 
-    //CV 관련
+    private int cropSize = 400;
+    private int width;
+    private int height;
+    private int startX;
+    private int startY;
+    #endregion
+
+    #region Computer Vision 호출
+    [SerializeField] CustomVisionAPI customvision;
     private List<Prediction> predictions;
-    private BoundingBox box;
+    private int max_pos;
+    public bool trigger = false;
+    float time;
+    #endregion
+
+    #region 데이터 계산
     public double distance;
+    public double scale = 0.1;
+    public int ballCenter_i;
+    public int ballCenter_j;
+    #endregion
 
-    public bool send = true;
-
-    //Computing
-    private KalmanFilter kf;
-    private Trajectory traj;
-    [SerializeField] NRHMDPoseTracker tracker;
-
-
-    // Start is called before the first frame update
-    void Start()
+    #region 데이터 활용
+    private Transform m_CenterCamera;
+    private Transform CenterCamera
     {
-        texture_full = source.textureFull;
-        // Initialize to MID
-        detecting_center_x = source.width / 2;
-        detecting_center_y = source.height / 2;
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // TextureFull 업데이트
-        texture_full = source.textureFull;
-
-        if (texture_full != null)
+        get
         {
-            #region Crop Texture
-            Debug.Log("Crop Texture");
-            texture_cropped = Crop(detecting_center_x, detecting_center_y);
-            #endregion
-
-            #region Prediction API 사용
-            if (send)
+            if (m_CenterCamera == null)
             {
-                Debug.Log("Prediction API");
-                customvision.Predict(DeCompress(texture_cropped));
-
-                if (customvision.result != null)
+                if (NRSessionManager.Instance.CenterCameraAnchor != null)
                 {
-                    predictions = customvision.result.predictions;
-
-                    int max_pos = 0;
-                    for (int i = 0; i < predictions.Count; i++)
-                    {
-                        if (predictions[max_pos].probability < predictions[i].probability)
-                        {
-                            max_pos = i;
-                        }
-                    }
-                    //  Max Probablity Area
-                    box = predictions[max_pos].boundingBox;
+                    m_CenterCamera = NRSessionManager.Instance.CenterCameraAnchor;
                 }
-                else
+                else if (Camera.main != null)
                 {
-                    Debug.Log("Object Detection result null");
-                }
-
-                send = false;
-            }
-            #endregion
-
-            #region Bounding Box 처리
-            if (box != null)
-            {
-                Debug.Log("BoundingBox");
-                //  해상도에 맞게 casting하여 pixel local위치 획득
-                int local_center_x = (int)((box.left + box.width / 2) * cropSize);
-                int local_center_y = (int)((box.top + box.height / 2) * cropSize);
-                //  Local Pixel -> Universal Pixel
-                int uni_center_x = start_x + local_center_x; //오른쪽으로
-                int uni_center_y = start_y + local_center_y; //아래로
-                //  Kalman Filter에 업데이트
-                //kf.buffer(uni_center_x, uni_center_y  );
-
-                //  Ball area 획득
-                double ball_area = box.width * box.height;
-
-                // Detection 2 Vector3D
-                ulong timestamp = source.timestamp;
-                Pose headpose = NRFrame.HeadPose;
-                Vector3 point = Detection2Point(headpose, uni_center_x, uni_center_y, ball_area);
-
-                //  Trajectory에 Data ADD
-                if (point != null)
-                {
-                    if (point == null)
-                    {
-                        Debug.Log("Point Null");
-                    }
-                    else
-                    {
-                        //traj.AddData(new DetectionData(point, timestamp));
-                    }
+                    m_CenterCamera = Camera.main.transform;
                 }
             }
-            else
-            {
-                //kf.skip();
-            }
-            #endregion
-
-            // 새로운 Detecting 영역 설정 by Kalman Filter
-            //detecting_center_x = kf.x;
-            //detecting_center_y = kf.y;
+            return m_CenterCamera;
         }
     }
 
-    private Texture2D Crop(int x, int y)
-    {
-        Texture2D tex = new Texture2D(cropSize, cropSize, TextureFormat.RGB24, false);
-        if (x - cropSize / 2 > 0 && x + cropSize / 2 < source.width && y - cropSize / 2 > 0 && y + cropSize / 2 < source.height)
-        {
-            start_x = x- cropSize / 2;
-            start_y = y - cropSize / 2;
+    [SerializeField] NRHMDPoseTracker tracker;
 
-            for (int i = 0; i < cropSize; i++)
+    //GolfBall Model
+    public GameObject golf_ball;
+    private Text noticeText;    //상단 상태창
+    #endregion
+
+    void Start()
+    {
+        noticeText = GameObject.FindGameObjectWithTag("NoticeText").GetComponent<Text>();
+
+        textureSource = source.textureFull;
+        width = textureSource.width;
+        height = textureSource.height;
+        // 시작 Crop Size
+        textureCropped = new Texture2D(cropSize, cropSize, TextureFormat.RGB24, false);
+    }
+
+    void Update()
+    {
+        #region Crop 실행
+        textureSource = source.textureFull;
+        //DeCompress(textureSource);
+        textureCropped = CropV2(0, 0);
+        #endregion
+        preview.texture = textureCropped;
+        (preview.texture as Texture2D).Apply();
+
+        #region Prediction API 사용
+        if (trigger)
+        {
+            time = 0;
+        }
+
+        if (trigger) //@@@@@ Prediction 여부
+        {
+            customvision.Predict(DeCompress(textureCropped));
+
+            // 응답 확인
+            if (CheckPredictionResult(customvision.result))
             {
-                for (int j = 0; j < cropSize; j++)
-                {
-                    tex.SetPixel(i, j, texture_full.GetPixel(start_x + i, start_y + j));
-                }
+                //  CropSize + BoundingBox -> (Ball Area , Golfball Position) -> Distance
+                BoundingBox box = predictions[max_pos].boundingBox;
+                double ballArea = (cropSize * box.width) * (cropSize * box.height); // World Area
+                distance = Area2Distance(ballArea);
+
+                ballCenter_i = startX + (int)(cropSize * (box.left + width / 2));
+                ballCenter_j = startY + (int)(cropSize * (1 - (box.top + box.height)));
+
+                //  HeadPose + Golfball Position => DB
+
             }
-            return tex;
+
+            trigger = false;
+        }
+
+        afterview.texture = preview.texture;
+        #endregion
+        /*
+        for (int i = 0; i < 10; i++)
+        {
+            for (int j = 0; j < 10; j++)
+            {
+                (afterview.texture as Texture2D).SetPixel(i, j, Color.blue);
+            }
+        }
+        (afterview.texture as Texture2D).Apply();
+        */
+        
+
+        // if(DB.Count > enoughNumber) Print Trajectory
+
+        #region 활용
+        golf_ball.transform.position = CenterCamera.position;
+        golf_ball.transform.rotation = CalcRotation(CenterCamera.rotation, ballCenter_i, ballCenter_j);
+        golf_ball.transform.Translate(Vector3.forward * (float)distance);
+        #endregion
+
+        #region 메모리 관리
+        //Texture2D.DestroyImmediate(textureCropped);
+        //Texture2D.DestroyImmediate(textureSource);
+        #endregion
+    }
+
+    public void PredictionTrigger()
+    {
+        trigger = true;
+    }
+
+    private double Area2Distance(double area)
+    {
+        return scale * area;
+    }
+
+    private Quaternion CalcRotation(Quaternion headRotation, int ballCenter_i, int ballCenter_j)
+    {
+        Vector3 headRig = headRotation.eulerAngles;
+
+        #region X축 회전 EulerAngle
+        double angleX;
+        if (ballCenter_j < height / 2)
+        {
+            angleX = -(35.45/1.778) * (height / 2 - ballCenter_j) / (height / 2);
         }
         else
         {
-            start_x = x - cropSize / 2;
-            start_y = y - cropSize / 2;
-            // Collision Filter
-            if (x - cropSize / 2 <= 0)
-            {
-                start_x = 0;
-            }
-            else if(x + cropSize/2 > source.width)
-            {
-                start_x = source.width - cropSize;
-            }
-            if (y - cropSize / 2 <= 0)
-            {
-                start_y = 0;
-            }
-            else if (y + cropSize / 2 > source.height)
-            {
-                start_y = source.height - cropSize;
-            }
-            // Copy Texture
-            for (int i = 0; i < cropSize; i++)
-            {
-                for (int j = 0; j < cropSize; j++)
-                {
-                    tex.SetPixel(i, j, texture_full.GetPixel(start_x + i, start_y + j));
-                }
-            }
-            return tex;
+            angleX = +(35.45 / 1.778) * (ballCenter_j - height / 2) / (height / 2);
         }
+        #endregion
 
-        /*
-        //이전
-        if (x + cropSize < texture_full.width && y + cropSize < texture_full.height)
+        #region Y축 회전 EulerAngle
+        double angleY;
+        if (ballCenter_i < width/2)
         {
-
-            gap_x = 200;
-            gap_y = 200;
-
+            angleY = - 35.45 * (width / 2 - ballCenter_i) / (width/2);
         }
-        Texture2D texture = texture_full;
-        return texture;
-        */
+        else
+        {
+            angleY = 35.45 * ( ballCenter_i - width/2 ) / (width/2);
+        }
+        #endregion
+
+        return Quaternion.Euler(headRig + new Vector3((float)angleX, (float)angleY, 0));
+    }
+
+
+    //golf_ball.transform.rotation = CenterCamera.rotation;
+    //golf_ball.transform.position = CenterCamera.position;
+
+    //Debug.Log("GolfBall rotation: " + golf_ball.transform.rotation.x + "  " + golf_ball.transform.rotation.y + "  " + golf_ball.transform.rotation.z);
+    //golf_ball.transform.Translate(Vector3.forward *(float)distance);
+
+    //afterview.texture = new Texture2D(cropSize, cropSize, TextureFormat.RGB24, false);
+    //afterview.texture = textureCropped;
+    //(afterview.texture as Texture2D).SetPixel(i, j, Color.red);
+    //(afterview.texture as Texture2D).Apply();
+
+
+    // Detection 2 Vector3D
+    //ulong timestamp = source.timestamp;
+    //Pose headpose = NRFrame.HeadPose;
+    //Vector3 point = Detection2Point(headpose, uni_center_x, uni_center_y, ball_area);
+    //traj.AddData(new DetectionData(CenterCamera.rotation.eulerAngles, distance, timestamp));
+    //traj.CheckData();
+
+    private bool CheckPredictionResult(ResultJson result)
+    {
+        if (customvision.result != null)
+        {
+            predictions = customvision.result.predictions; // Empty여부와 상관없이 Insert
+
+            if (predictions.Count > 0)
+            {
+                //Max Probability 획득
+                max_pos = 0;
+                for (int i = 0; i < predictions.Count; i++)
+                {
+                    if (predictions[max_pos].probability < predictions[i].probability)
+                    {
+                        max_pos = i;
+                    }
+                }
+                Debug.Log("Max Probability:" + predictions[max_pos].probability); return true;
+            }
+            else { Debug.Log("Prediction Result Empty"); return false; }
+        }
+        else { Debug.Log("CustomVision Result Null"); return false; }
     }
 
     public static Texture2D DeCompress(Texture2D source)
@@ -212,47 +245,26 @@ public class ObjectDetection : MonoBehaviour
         return readableText;
     }
 
-    public double CalculateDistance(double area)
-    {
-        double scale = 100;
-        return area / scale;
-    }
-
-    public Vector3 Detection2Point(Pose head, int detecting_center_x, int detecting_center_y, double ball_area)
-    {
-        distance = CalculateDistance(ball_area);
-
-        double angle_x;
-        #region X축 각도
-        int center2obj_x;
-        if (detecting_center_x > source.width / 2)
-        {
-            center2obj_x = (detecting_center_x - source.width / 2);
-        }
-        else
-        {
-            center2obj_x = (-(source.width / 2 - detecting_center_x));
-        }
-        angle_x = (35.45 / (source.width / 2)) * center2obj_x;
-        #endregion
-        double angle_y;
-        #region Y축 각도
-        int center2obj_y;
-        if (detecting_center_y < source.height / 2)
-        {
-            center2obj_y = (detecting_center_y - source.height / 2);
-        }
-        else
-        {
-            center2obj_y = (-(source.height / 2 - detecting_center_y));
-        }
-        angle_y = ((35.45 / 1.778) / (source.height / 2)) * center2obj_y;
-        #endregion
-
-        Vector3 unit_vec = (Quaternion.Euler((float)angle_y, (float)angle_x, 0) * head.rotation.eulerAngles).normalized;
-
-        return unit_vec * (float)distance;
-    }
-
     public long UnixTimeNow() { var timeSpan = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)); return (long)timeSpan.TotalSeconds; }
+    public void ChangeScale(bool boo)
+    {
+        if (boo)
+        {
+            scale += 1;
+        }
+        else
+        {
+            scale -= 1;
+        }
+        noticeText.text = "Scale" + scale;
+    }
+    private Texture2D CropV2(int x, int y)
+    {
+        Texture2D tex = new Texture2D(cropSize, cropSize, TextureFormat.RGB24, false);
+
+        tex.SetPixels(textureSource.GetPixels(x, y, cropSize, cropSize));
+        tex.Apply();
+
+        return tex;
+    }
 }

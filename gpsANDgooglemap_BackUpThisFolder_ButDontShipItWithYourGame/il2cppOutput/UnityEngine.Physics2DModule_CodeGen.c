@@ -13,7 +13,7 @@
 
 
 // 0x00000001 System.Void UnityEngine.Physics2D::.cctor()
-extern void Physics2D__cctor_m538A4AED462ACB3482F9C397DE0B72BCDA2D3CFB (void);
+extern void Physics2D__cctor_m7B7A8EEEE744CE27534A7ADF12F31A4E376544E8 (void);
 // 0x00000002 UnityEngine.Vector2 UnityEngine.RaycastHit2D::get_point()
 extern void RaycastHit2D_get_point_mB35E988E9E04328EFE926228A18334326721A36B (void);
 // 0x00000003 UnityEngine.Vector2 UnityEngine.RaycastHit2D::get_normal()
@@ -24,7 +24,7 @@ extern void RaycastHit2D_get_distance_mD0FE1482E2768CF587AFB65488459697EAB64613 
 extern void RaycastHit2D_get_collider_mB56DFCD16B708852EEBDBB490BC8665DBF7487FD (void);
 static Il2CppMethodPointer s_methodPointers[5] = 
 {
-	Physics2D__cctor_m538A4AED462ACB3482F9C397DE0B72BCDA2D3CFB,
+	Physics2D__cctor_m7B7A8EEEE744CE27534A7ADF12F31A4E376544E8,
 	RaycastHit2D_get_point_mB35E988E9E04328EFE926228A18334326721A36B,
 	RaycastHit2D_get_normal_m75F1EBDE347BACEB5A6A6AA72543C740806AB5F2,
 	RaycastHit2D_get_distance_mD0FE1482E2768CF587AFB65488459697EAB64613,
@@ -43,11 +43,11 @@ static Il2CppTokenAdjustorThunkPair s_adjustorThunks[4] =
 };
 static const int32_t s_InvokerIndices[5] = 
 {
-	6132,
-	3998,
-	3998,
-	3959,
-	3919,
+	7977,
+	5250,
+	5250,
+	5196,
+	5152,
 };
 IL2CPP_EXTERN_C const Il2CppCodeGenModule g_UnityEngine_Physics2DModule_CodeGenModule;
 const Il2CppCodeGenModule g_UnityEngine_Physics2DModule_CodeGenModule = 
