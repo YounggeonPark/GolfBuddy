@@ -150,6 +150,7 @@ namespace NRKernal.NRExamples
             if (m_VideoCapture == null || m_VideoCapture.IsRecording)
             {
                 NRDebugger.Warning("Can not start video capture!");
+                GameObject.FindGameObjectWithTag("NoticeText").GetComponent<Text>().text = "Can not start video capture!";
                 return;
             }
 

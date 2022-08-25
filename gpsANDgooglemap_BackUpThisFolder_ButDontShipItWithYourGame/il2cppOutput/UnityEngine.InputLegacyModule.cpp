@@ -1641,6 +1641,24 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LocationService_GetLastHeading_Injected_
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
+// System.Single UnityEngine.Compass::get_trueHeading()
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float Compass_get_trueHeading_m5546F74294A5CC2B4A731ECE1E02F0BE7085582C (Compass_t161CD14062E71ED7324FE12ED003EE0877EE546F* __this, const RuntimeMethod* method) 
+{
+	float V_0 = 0.0f;
+	{
+		HeadingInfo_tDE66705847BB57D5815F1D570980E7C306B513BC L_0;
+		L_0 = LocationService_GetLastHeading_m4ED66327647F8DA6CFCB895859CCDD5952276BEA(NULL);
+		float L_1 = L_0.___trueHeading_1;
+		V_0 = L_1;
+		goto IL_000e;
+	}
+
+IL_000e:
+	{
+		float L_2 = V_0;
+		return L_2;
+	}
+}
 // UnityEngine.Vector3 UnityEngine.Compass::get_rawVector()
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 Compass_get_rawVector_mC6A8DB056776CA677F9D573BF8415241BC116591 (Compass_t161CD14062E71ED7324FE12ED003EE0877EE546F* __this, const RuntimeMethod* method) 
 {

@@ -7,6 +7,9 @@ TagManager:
   - Mode1
   - NoticeText
   - Interface
+  - PlayerEyes
+  - Weather
+  - CaddieTextBox
   layers:
   - Default
   - TransparentFX

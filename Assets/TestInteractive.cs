@@ -21,20 +21,18 @@ public class TestInteractive : MonoBehaviour, IPointerClickHandler, IPointerEnte
     /// <param name="eventData"> Current event data.</param>
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("OnPointerClick");
+
     }
 
     /// <summary> when pointer hover, set the cube color to green. </summary>
     /// <param name="eventData"> Current event data.</param>
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("OnPointerEnter");
     }
 
     /// <summary> when pointer exit hover, set the cube color to white. </summary>
     /// <param name="eventData"> Current event data.</param>
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("OnPointerExit");
     }
 }

@@ -9,7 +9,6 @@ public class OptionSetting : MonoBehaviour
     [SerializeField] GPSHandler gpshandler;
     [SerializeField] CameraTexture ct;
 
-    public bool onUnity;
     [SerializeField] Text unityText;
     public bool onTestMode;
     [SerializeField] Text testText;
@@ -20,42 +19,13 @@ public class OptionSetting : MonoBehaviour
 
     private void Start()
     {
-        onUnity = true;
         onTestMode = false;
-
         noticeText = GameObject.FindGameObjectWithTag("NoticeText").GetComponent<Text>();
-        noticeText.text = "Unity: " + onUnity + ", TestMode: "+onTestMode;
     }
 
     public void StartSetting()
     {
-        gpshandler.onUnity = onUnity;
-        ct.onUnity = onUnity;
-
         gpshandler.TestMode(onTestMode);
-    }
-    public void UnityTrigger()
-    {
-        ct.onUnity = !onUnity;
-        gpshandler.onUnity = !onUnity;
-        if (!onUnity)
-        {
-            unityText.text = "유니티\n끄기";
-        }
-        else
-        {
-            unityText.text = "유니티\n켜기";
-        }
-
-        onUnity = !onUnity;
-    }
-    public void UnityTrigger(bool boo)
-    {
-        noticeText.text = "Unity: " + boo;
-        ct.onUnity = boo;
-        gpshandler.onUnity = boo;
-
-        onUnity = boo;
     }
     public void TestTrigger()
     {

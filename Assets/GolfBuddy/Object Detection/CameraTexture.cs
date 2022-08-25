@@ -30,12 +30,14 @@ public class CameraTexture : MonoBehaviour
     {
         onUnity = false;
 
-        if (onUnity)
+        if (Application.isEditor)
         {
             textureFull = test_input;
 
             width = test_input.width;
             height = test_input.height;
+
+            onUnity = true;
         }
         else
         {
@@ -60,9 +62,7 @@ public class CameraTexture : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        onUnity = setting.onUnity;
-
-        if (onUnity)
+        if (Application.isEditor)
         {
             textureFull = test_input;
             width = textureFull.width;

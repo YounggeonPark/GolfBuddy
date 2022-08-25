@@ -34,7 +34,7 @@ public class GovAPI
             url += "&numOfRows=1000";
             url += "&dataType=JSON";
             url += "&base_date=" + (DateTime.Now.Year * 10000 + DateTime.Now.Month * 100 + DateTime.Now.Day);
-            int temp_time = (10000 + DateTime.Now.Hour * 100 + DateTime.Now.Minute);
+            int temp_time = (10000 + (DateTime.Now.Hour-6) * 100 + DateTime.Now.Minute  );
             url += "&base_time=" + temp_time.ToString().Substring(1, 4);
             url += "&nx=" + nx;
             url += "&ny=" + ny;
@@ -58,7 +58,7 @@ public class GovAPI
 
                     byte[] bytedata = www.bytes;
                     var str = System.Text.Encoding.Default.GetString(bytedata);
-                    Debug.Log(str);
+                    Debug.Log(str); 
 
                     GovRoot govRoot = JsonConvert.DeserializeObject<GovRoot>(str);
                     

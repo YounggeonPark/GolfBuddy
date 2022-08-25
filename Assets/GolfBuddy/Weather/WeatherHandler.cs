@@ -33,6 +33,7 @@ public class WeatherHandler : MonoBehaviour
 
     void Update()
     {
+
         if (update)
         {
             #region Kakao REST API ( GPS -> 행정구역 ) // rest api 수정필요

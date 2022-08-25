@@ -41,14 +41,14 @@ static Il2CppMethodPointer s_methodPointers[8] =
 };
 static const int32_t s_InvokerIndices[8] = 
 {
-	7958,
-	7958,
-	7977,
-	7977,
-	7806,
-	6280,
-	5260,
-	7977,
+	8173,
+	8173,
+	8194,
+	8194,
+	8021,
+	6479,
+	5455,
+	8194,
 };
 IL2CPP_EXTERN_C const Il2CppCodeGenModule g_Compass3D_CodeGenModule;
 const Il2CppCodeGenModule g_Compass3D_CodeGenModule = 

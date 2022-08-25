@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class DetectionData 
 {
-    public DetectionData(Vector3 eulerAngle, double distance, ulong timestamp)
+    public DetectionData(Transform ballPosition, double distance, float timestamp)
     {
-        this.eulerAngle = eulerAngle;
+        this.ballPosition = ballPosition;
         this.timestamp = timestamp;
         this.distance = distance;
     }
 
-    public Vector3 eulerAngle { get; set; } 
+    public Transform ballPosition { get; set; } 
     public double distance { get; set; }
-    public ulong timestamp { get; set; }
+    public float timestamp { get; set; }
 }

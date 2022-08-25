@@ -5,20 +5,25 @@ using UnityEngine.UI;
 
 public class UserPosUpdate : MonoBehaviour
 {
+    [SerializeField] SpawnObject spawnObject;
     [SerializeField] GPSHandler gpshandler;
     [SerializeField] Terrain terrain;
     [SerializeField] TerrainDataPos terrainData;
     [SerializeField] Text usertext;
     CoordinateHandler coordinate;
 
-    public float userLat; //updown
-    public float userLon; //leftright
+    public double userLat; //updown
+    public double userLon; //leftright
     public float user_elevation; // Elevation
     public Vector3 userUnityPos;
     public Vector3 temp;
 
     void Start()
     {
+        userLon = gpshandler.longitude;
+        userLat = gpshandler.latitude;
+        spawnObject.SetOrigin(userLon, userLat);
+
         coordinate = new CoordinateHandler(terrainData);
     }
 
@@ -36,12 +41,12 @@ public class UserPosUpdate : MonoBehaviour
             userUnityPos = coordinate.gps2unity(userLon, userLat);
 
             temp = userUnityPos;
-            temp.y = temp.y * 512;
+            temp.y = temp.y * terrainData.resolution;
 
-            user_elevation = temp.y;
+            user_elevation = 569.663464f* Terrain.activeTerrain.SampleHeight(temp / terrainData.resolution);
             
 
-            this.transform.position = Terrain.activeTerrain.transform.position + temp/512;
+            this.transform.position = Terrain.activeTerrain.transform.position + temp/ terrainData.resolution;
             float gap = terrain.SampleHeight(this.transform.position);
             this.transform.position = this.transform.position + new Vector3(0, gap/2, 0);
 

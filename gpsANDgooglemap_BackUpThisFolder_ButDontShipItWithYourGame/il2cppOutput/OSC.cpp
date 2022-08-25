@@ -5571,7 +5571,7 @@ IL_0087:
 		String_t* L_24 = V_0;
 		NullCheck(L_23);
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_25;
-		L_25 = VirtualFuncInvoker1< ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031*, String_t* >::Invoke(19 /* System.Byte[] System.Text.Encoding::GetBytes(System.String) */, L_23, L_24);
+		L_25 = VirtualFuncInvoker1< ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031*, String_t* >::Invoke(17 /* System.Byte[] System.Text.Encoding::GetBytes(System.String) */, L_23, L_24);
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_26 = V_5;
 		int32_t L_27 = V_4;
 		NullCheck((RuntimeArray*)L_25);
@@ -6715,7 +6715,7 @@ IL_057f:
 		String_t* L_179 = __this->___Address_0;
 		NullCheck(L_178);
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_180;
-		L_180 = VirtualFuncInvoker1< ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031*, String_t* >::Invoke(19 /* System.Byte[] System.Text.Encoding::GetBytes(System.String) */, L_178, L_179);
+		L_180 = VirtualFuncInvoker1< ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031*, String_t* >::Invoke(17 /* System.Byte[] System.Text.Encoding::GetBytes(System.String) */, L_178, L_179);
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_181 = V_7;
 		int32_t L_182 = V_4;
 		NullCheck((RuntimeArray*)L_180);
@@ -6728,7 +6728,7 @@ IL_057f:
 		String_t* L_186 = V_3;
 		NullCheck(L_185);
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_187;
-		L_187 = VirtualFuncInvoker1< ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031*, String_t* >::Invoke(19 /* System.Byte[] System.Text.Encoding::GetBytes(System.String) */, L_185, L_186);
+		L_187 = VirtualFuncInvoker1< ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031*, String_t* >::Invoke(17 /* System.Byte[] System.Text.Encoding::GetBytes(System.String) */, L_185, L_186);
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_188 = V_7;
 		int32_t L_189 = V_4;
 		NullCheck((RuntimeArray*)L_187);
@@ -7610,7 +7610,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR OscBundle_tB5BEC7EA0BEE7284C4759A04032A785772
 		L_3 = Extensions_SubArray_TisByte_t94D9231AC217BE4D2E004C4CD32DF6D099EA41A3_mA72FCDAC248CDCC380D2F84EBE418BB2DAC79FDB(L_2, 0, 8, Extensions_SubArray_TisByte_t94D9231AC217BE4D2E004C4CD32DF6D099EA41A3_mA72FCDAC248CDCC380D2F84EBE418BB2DAC79FDB_RuntimeMethod_var);
 		NullCheck(L_1);
 		String_t* L_4;
-		L_4 = VirtualFuncInvoker1< String_t*, ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* >::Invoke(37 /* System.String System.Text.Encoding::GetString(System.Byte[]) */, L_1, L_3);
+		L_4 = VirtualFuncInvoker1< String_t*, ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* >::Invoke(35 /* System.String System.Text.Encoding::GetString(System.Byte[]) */, L_1, L_3);
 		int32_t L_5 = V_2;
 		V_2 = ((int32_t)il2cpp_codegen_add(L_5, 8));
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_6 = ___bundle0;
@@ -7752,7 +7752,7 @@ IL_001a:
 		L_10 = Extensions_SubArray_TisByte_t94D9231AC217BE4D2E004C4CD32DF6D099EA41A3_mA72FCDAC248CDCC380D2F84EBE418BB2DAC79FDB(L_7, L_8, ((int32_t)il2cpp_codegen_subtract(L_9, 1)), Extensions_SubArray_TisByte_t94D9231AC217BE4D2E004C4CD32DF6D099EA41A3_mA72FCDAC248CDCC380D2F84EBE418BB2DAC79FDB_RuntimeMethod_var);
 		NullCheck(L_6);
 		String_t* L_11;
-		L_11 = VirtualFuncInvoker1< String_t*, ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* >::Invoke(37 /* System.String System.Text.Encoding::GetString(System.Byte[]) */, L_6, L_10);
+		L_11 = VirtualFuncInvoker1< String_t*, ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* >::Invoke(35 /* System.String System.Text.Encoding::GetString(System.Byte[]) */, L_6, L_10);
 		V_1 = L_11;
 		goto IL_003b;
 	}
@@ -7848,7 +7848,7 @@ IL_0008:
 		L_10 = Extensions_SubArray_TisByte_t94D9231AC217BE4D2E004C4CD32DF6D099EA41A3_mA72FCDAC248CDCC380D2F84EBE418BB2DAC79FDB(L_6, L_7, ((int32_t)il2cpp_codegen_subtract(L_8, L_9)), Extensions_SubArray_TisByte_t94D9231AC217BE4D2E004C4CD32DF6D099EA41A3_mA72FCDAC248CDCC380D2F84EBE418BB2DAC79FDB_RuntimeMethod_var);
 		NullCheck(L_5);
 		CharU5BU5D_t799905CF001DD5F13F7DBB310181FC4D8B7D0AAB* L_11;
-		L_11 = VirtualFuncInvoker1< CharU5BU5D_t799905CF001DD5F13F7DBB310181FC4D8B7D0AAB*, ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* >::Invoke(26 /* System.Char[] System.Text.Encoding::GetChars(System.Byte[]) */, L_5, L_10);
+		L_11 = VirtualFuncInvoker1< CharU5BU5D_t799905CF001DD5F13F7DBB310181FC4D8B7D0AAB*, ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* >::Invoke(24 /* System.Char[] System.Text.Encoding::GetChars(System.Byte[]) */, L_5, L_10);
 		V_1 = L_11;
 		goto IL_0030;
 	}
@@ -8020,7 +8020,7 @@ IL_0008:
 		L_10 = Extensions_SubArray_TisByte_t94D9231AC217BE4D2E004C4CD32DF6D099EA41A3_mA72FCDAC248CDCC380D2F84EBE418BB2DAC79FDB(L_6, L_7, ((int32_t)il2cpp_codegen_subtract(L_8, L_9)), Extensions_SubArray_TisByte_t94D9231AC217BE4D2E004C4CD32DF6D099EA41A3_mA72FCDAC248CDCC380D2F84EBE418BB2DAC79FDB_RuntimeMethod_var);
 		NullCheck(L_5);
 		String_t* L_11;
-		L_11 = VirtualFuncInvoker1< String_t*, ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* >::Invoke(37 /* System.String System.Text.Encoding::GetString(System.Byte[]) */, L_5, L_10);
+		L_11 = VirtualFuncInvoker1< String_t*, ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* >::Invoke(35 /* System.String System.Text.Encoding::GetString(System.Byte[]) */, L_5, L_10);
 		V_0 = L_11;
 		goto IL_0032;
 	}
@@ -8526,7 +8526,7 @@ IL_001f:
 		String_t* L_11 = ___value0;
 		NullCheck(L_10);
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_12;
-		L_12 = VirtualFuncInvoker1< ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031*, String_t* >::Invoke(19 /* System.Byte[] System.Text.Encoding::GetBytes(System.String) */, L_10, L_11);
+		L_12 = VirtualFuncInvoker1< ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031*, String_t* >::Invoke(17 /* System.Byte[] System.Text.Encoding::GetBytes(System.String) */, L_10, L_11);
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_13 = V_1;
 		NullCheck((RuntimeArray*)L_12);
 		Array_CopyTo_mFD42E3443AB3B850ED6F19359698E242A08E1BAB((RuntimeArray*)L_12, (RuntimeArray*)L_13, 0, NULL);

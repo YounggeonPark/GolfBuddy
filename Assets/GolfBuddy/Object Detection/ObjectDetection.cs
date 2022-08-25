@@ -8,12 +8,11 @@ public class ObjectDetection : MonoBehaviour
 {
     #region Texture Source 처리
     [SerializeField] CameraTexture source;
-    [SerializeField] RawImage afterview;
     [SerializeField] RawImage preview;
     public Texture2D textureSource;
     public Texture2D textureCropped;
 
-    private int cropSize = 400;
+    private int cropSize = 720;
     private int width;
     private int height;
     private int startX;
@@ -24,13 +23,14 @@ public class ObjectDetection : MonoBehaviour
     [SerializeField] CustomVisionAPI customvision;
     private List<Prediction> predictions;
     private int max_pos;
-    public bool trigger = false;
-    float time;
+    public bool trigger = true;
+    private float time = 0;
     #endregion
 
     #region 데이터 계산
+    public BoundingBox box;
     public double distance;
-    public double scale = 0.1;
+    public double scale = 3200; //5.87515;
     public int ballCenter_i;
     public int ballCenter_j;
     #endregion
@@ -55,35 +55,87 @@ public class ObjectDetection : MonoBehaviour
             return m_CenterCamera;
         }
     }
+    [SerializeField] Trajectory storage;
 
-    [SerializeField] NRHMDPoseTracker tracker;
+    private float runtime = 0;
+    public bool runtimeRun;
 
     //GolfBall Model
     public GameObject golf_ball;
-    private Text noticeText;    //상단 상태창
+    public GameObject golf_ball_start;
+    #endregion
+
+    #region 궤적
+
     #endregion
 
     void Start()
     {
-        noticeText = GameObject.FindGameObjectWithTag("NoticeText").GetComponent<Text>();
-
         textureSource = source.textureFull;
-        width = textureSource.width;
-        height = textureSource.height;
+        width = source.width;
+        height = source.height;
         // 시작 Crop Size
         textureCropped = new Texture2D(cropSize, cropSize, TextureFormat.RGB24, false);
     }
+    private void OnEnable()
+    {
+        if (textureCropped == null)
+        {
+            textureCropped = new Texture2D(cropSize, cropSize, TextureFormat.RGB24, false);
+            textureSource = source.textureFull;
+            width = source.width;
+            height = source.height;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if(textureCropped != null)
+        {
+            Destroy(textureCropped);
+            textureCropped= null;
+        }
+    }
+
 
     void Update()
     {
-        #region Crop 실행
-        textureSource = source.textureFull;
-        //DeCompress(textureSource);
-        textureCropped = CropV2(0, 0);
-        #endregion
-        preview.texture = textureCropped;
-        (preview.texture as Texture2D).Apply();
+        time += Time.deltaTime;
+        if (runtimeRun)
+        {
+            runtime += Time.deltaTime;
+        }
+        if (runtime > 7f)
+        {
+            runtimeRun = false;
+            runtime = 0;
+            time = 0;
+            cropSize = 720;
+        }
 
+        if (time > 1.5f && runtime > 0)
+        {
+            TriggerTrue();
+        }
+
+        #region Crop 실행
+        if (trigger)
+        {
+            // 변경된 Crop사이즈에 따라 초기화 진행
+            //textureCropped = null;
+            textureCropped = new Texture2D (cropSize, cropSize, TextureFormat.RGB24, false);
+
+            textureSource = source.textureFull;
+            //DeCompress(textureSource);
+            Debug.Log("Source: " + textureSource.height + ", Cropped: " + textureCropped.height + ", target height:" + height + ", cropsize: " + cropSize);
+            TextureUtils.CropV2(textureSource, textureCropped, (width / 2) - (cropSize / 2), (height / 2) - (cropSize / 2), cropSize);
+            #endregion
+            preview.texture = textureCropped;
+            (preview.texture as Texture2D).Apply();
+
+
+            //cropSize-= 10;
+        }
         #region Prediction API 사용
         if (trigger)
         {
@@ -92,62 +144,94 @@ public class ObjectDetection : MonoBehaviour
 
         if (trigger) //@@@@@ Prediction 여부
         {
-            customvision.Predict(DeCompress(textureCropped));
 
+            customvision.Predict(TextureUtils.DeCompress(textureCropped));
             // 응답 확인
             if (CheckPredictionResult(customvision.result))
             {
+                bool detect = false;
+
                 //  CropSize + BoundingBox -> (Ball Area , Golfball Position) -> Distance
-                BoundingBox box = predictions[max_pos].boundingBox;
-                double ballArea = (cropSize * box.width) * (cropSize * box.height); // World Area
-                distance = Area2Distance(ballArea);
+                if (predictions[max_pos].probability >= 0.3)
+                {
+                    detect = true;
 
-                ballCenter_i = startX + (int)(cropSize * (box.left + width / 2));
-                ballCenter_j = startY + (int)(cropSize * (1 - (box.top + box.height)));
+                    box = predictions[max_pos].boundingBox;
 
-                //  HeadPose + Golfball Position => DB
+                    double ballArea = (cropSize * box.width) * (cropSize * box.height); // World Area  //scale 3200하면 됨
+                    //double ballRadius = (cropSize * box.width) / 2;
 
+                    distance = Area2Distance(ballArea);
+                    //distance = Radius2Distance(ballRadius);
+                    //distance = Diameter2Distance(box.width);
+
+
+                    ballCenter_i = startX + (int)(cropSize * (box.left + width / 2));
+                    ballCenter_j = startY + (int)(cropSize * (1 - (box.top + box.height)));
+
+                    // 확대
+                    if (box.width < 0.1)
+                    {
+                        cropSize = cropSize - 10;
+                    }
+                }
+
+                #region 활용
+                if (detect)
+                {
+                    golf_ball.transform.position = CenterCamera.position;
+                    golf_ball.transform.rotation = CenterCamera.rotation;
+                    //golf_ball.transform.rotation = CalcRotation(CenterCamera.rotation, ballCenter_i, ballCenter_j);
+                    golf_ball.transform.Translate(Vector3.forward.normalized * (float)distance);
+
+                    if (storage.count == 0)
+                    {
+                        Debug.Log("Storage Count 0, so golfball_start moved");
+                        golf_ball_start.transform.position = golf_ball.transform.position;
+                    }
+
+                    //  HeadPose + Golfball Position => DB
+                    storage.AddData(new DetectionData(golf_ball.transform, distance, Time.realtimeSinceStartup));
+                }
+                #endregion
             }
-
             trigger = false;
         }
-
-        afterview.texture = preview.texture;
         #endregion
-        /*
-        for (int i = 0; i < 10; i++)
+
+
+        // 일정 이상의 데이터 획득 시 Trajectory 출력
+        if (storage.count > 2) 
         {
-            for (int j = 0; j < 10; j++)
-            {
-                (afterview.texture as Texture2D).SetPixel(i, j, Color.blue);
-            }
+            //noticeText.text = "SIze: " + storage.Counts();
+            storage.CheckData();
+
+            storage.PrintTrajectory();
         }
-        (afterview.texture as Texture2D).Apply();
-        */
-        
-
-        // if(DB.Count > enoughNumber) Print Trajectory
-
-        #region 활용
-        golf_ball.transform.position = CenterCamera.position;
-        golf_ball.transform.rotation = CalcRotation(CenterCamera.rotation, ballCenter_i, ballCenter_j);
-        golf_ball.transform.Translate(Vector3.forward * (float)distance);
-        #endregion
-
-        #region 메모리 관리
-        //Texture2D.DestroyImmediate(textureCropped);
-        //Texture2D.DestroyImmediate(textureSource);
-        #endregion
     }
 
     public void PredictionTrigger()
+    {
+        runtimeRun = true;
+    }
+
+    public void TriggerTrue()
     {
         trigger = true;
     }
 
     private double Area2Distance(double area)
     {
-        return scale * area;
+        return scale / area;
+    }
+    private double Radius2Distance(double radius)
+    {
+        return 2.323296 - 0.044134 * radius;
+    }
+    private double Diameter2Distance(double diameter)
+    {
+        return (391.922 + (-scale * diameter)) / 100;
+        //return (391.922 + (-5.87515 * diameter))/100;   // y=mx+b  m:-5.87515, b=391.922s -> cm에서 m변환
     }
 
     private Quaternion CalcRotation(Quaternion headRotation, int ballCenter_i, int ballCenter_j)
@@ -180,13 +264,6 @@ public class ObjectDetection : MonoBehaviour
 
         return Quaternion.Euler(headRig + new Vector3((float)angleX, (float)angleY, 0));
     }
-
-
-    //golf_ball.transform.rotation = CenterCamera.rotation;
-    //golf_ball.transform.position = CenterCamera.position;
-
-    //Debug.Log("GolfBall rotation: " + golf_ball.transform.rotation.x + "  " + golf_ball.transform.rotation.y + "  " + golf_ball.transform.rotation.z);
-    //golf_ball.transform.Translate(Vector3.forward *(float)distance);
 
     //afterview.texture = new Texture2D(cropSize, cropSize, TextureFormat.RGB24, false);
     //afterview.texture = textureCropped;
@@ -225,24 +302,14 @@ public class ObjectDetection : MonoBehaviour
         else { Debug.Log("CustomVision Result Null"); return false; }
     }
 
-    public static Texture2D DeCompress(Texture2D source)
+    private void MoveBall()
     {
-        RenderTexture renderTex = RenderTexture.GetTemporary(
-                    source.width,
-                    source.height,
-                    0,
-                    RenderTextureFormat.Default,
-                    RenderTextureReadWrite.Linear);
+        golf_ball.transform.rotation = CenterCamera.rotation;
+        golf_ball.transform.position = CenterCamera.position;
 
-        Graphics.Blit(source, renderTex);
-        RenderTexture previous = RenderTexture.active;
-        RenderTexture.active = renderTex;
-        Texture2D readableText = new Texture2D(source.width, source.height);
-        readableText.ReadPixels(new Rect(0, 0, renderTex.width, renderTex.height), 0, 0);
-        readableText.Apply();
-        RenderTexture.active = previous;
-        RenderTexture.ReleaseTemporary(renderTex);
-        return readableText;
+        //Debug.Log("GolfBall rotation: " + golf_ball.transform.rotation.x + "  " + golf_ball.transform.rotation.y + "  " + golf_ball.transform.rotation.z);
+        golf_ball.transform.Translate(Vector3.forward *(float)distance);
+
     }
 
     public long UnixTimeNow() { var timeSpan = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)); return (long)timeSpan.TotalSeconds; }
@@ -250,21 +317,11 @@ public class ObjectDetection : MonoBehaviour
     {
         if (boo)
         {
-            scale += 1;
+            scale += 10;
         }
         else
         {
-            scale -= 1;
+            scale -= 10;
         }
-        noticeText.text = "Scale" + scale;
-    }
-    private Texture2D CropV2(int x, int y)
-    {
-        Texture2D tex = new Texture2D(cropSize, cropSize, TextureFormat.RGB24, false);
-
-        tex.SetPixels(textureSource.GetPixels(x, y, cropSize, cropSize));
-        tex.Apply();
-
-        return tex;
     }
 }

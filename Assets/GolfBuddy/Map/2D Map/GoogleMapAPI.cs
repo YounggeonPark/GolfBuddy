@@ -19,8 +19,8 @@ public class GoogleMapAPI : MonoBehaviour
 
     private string m_key = "AIzaSyBZcHAVpU9pUcR_4Y_R8gPWUK2btrugVGw";
     private mapType type;
-    public float longitude;
-    public float latitude;
+    public double longitude;
+    public double latitude;
 
     private int mapWidth;
     private int mapHeight;
@@ -78,7 +78,7 @@ public class GoogleMapAPI : MonoBehaviour
             StaticMap();
             Debug.Log("[Map] UPDATE_Google Static API");
 
-            if (circle)
+            if (circle && zoom == 17)
             {
                 // 100M
                 _rawImage.texture = DrawCircle(_rawImage.texture as Texture2D, Color.red, mapWidth / 2, mapHeight / 2, 100);
@@ -86,8 +86,6 @@ public class GoogleMapAPI : MonoBehaviour
                 _rawImage.texture = DrawCircle(_rawImage.texture as Texture2D, Color.red, mapWidth / 2, mapHeight / 2, 200);
                 // 300M
                 _rawImage.texture = DrawCircle(_rawImage.texture as Texture2D, Color.red, mapWidth / 2, mapHeight / 2, 300);
-
-
             }
         }
         time = 0;

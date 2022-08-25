@@ -9,4 +9,8 @@ public class TerrainDataPos : MonoBehaviour
     public double topLat;
     public double bottomLat;
 
+    public double holeLong;
+    public double holeLat;
+
+    public int resolution;
 }

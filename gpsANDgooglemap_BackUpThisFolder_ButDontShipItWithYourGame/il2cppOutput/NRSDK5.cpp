@@ -984,6 +984,7 @@ IL2CPP_EXTERN_C String_t* _stringLiteral027833353F0A58A2945868AE167AE4083934E47A
 IL2CPP_EXTERN_C String_t* _stringLiteral0AC2D3DD830448AEFBD3116A20BA2CC3AC16DAF7;
 IL2CPP_EXTERN_C String_t* _stringLiteral10556459929013B3EB204EA8B95DD697D621D1E8;
 IL2CPP_EXTERN_C String_t* _stringLiteral109ED299341A1244B4C0C07E564D1F941FC1A689;
+IL2CPP_EXTERN_C String_t* _stringLiteral1175C3DD0458BC68A22A8CCD781E75331F9EBA22;
 IL2CPP_EXTERN_C String_t* _stringLiteral132254B29471B5349ECE9D504475F3DB2448165F;
 IL2CPP_EXTERN_C String_t* _stringLiteral137E26C0F28C5F356BE064A5F76AC7D36AC6BED1;
 IL2CPP_EXTERN_C String_t* _stringLiteral18260F1B3FADA30CA676C19F47CBDD253CD961DF;
@@ -1154,6 +1155,7 @@ IL2CPP_EXTERN_C const RuntimeMethod* GameObject_GetComponent_TisMeshRenderer_t4B
 IL2CPP_EXTERN_C const RuntimeMethod* GameObject_GetComponent_TisNRHomeMenu_t8CE6FE2FCFCBE4E76516140C83F6758FDAE3E774_mCB07E9603C336B0E9E49F7999E2BFF20B32C6380_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* GameObject_GetComponent_TisNRTrackableBehaviour_t8CF342961464ACD25F5C6B9FCB819FE5C14A1696_mFB2BC1EB10432E77A2DE42BD93D6B5F7BC309C90_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* GameObject_GetComponent_TisRenderer_t320575F223BCB177A982E5DDB5DB19FAA89E7FBF_m026EB44DB6238F13E2AFBECF1FBBE924CB1B040A_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* GameObject_GetComponent_TisText_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62_mBE6B722369FF149589D3D42A6A8435A9C5045B3F_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* GameObject_GetComponent_TisTrackableImageBehaviour_t9C6CE003F2B2BD9951EA3402BF8231E7BD32141A_mB33173E3333304F2620FC080D2E8E63011876521_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* GameObject_GetComponentsInChildren_TisUserDefineButton_t22A3235346D13A7DE1C492A6298ADADC9DC36556_mDFF99E7108CE22C83AD0D009F0F0420CC18021C1_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* HiddenDebugPanel_OnItemTriggerEvent_m41C7E235E093A571654FF6426FB5F42593697666_RuntimeMethod_var;
@@ -4877,6 +4879,8 @@ struct DemoScenesMenu_t1B75873EBA44FC6DBA32EDDBCE2F2A89D0E8819B  : public Single
 	Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* ___m_ButtonsRoot_7;
 	// NRKernal.NRExamples.UserDefineButton[] NRKernal.NRExamples.DemoScenesMenu::Buttons
 	UserDefineButtonU5BU5D_tAD7F4D4A3CC949D247290587468C35DBE27FBC6E* ___Buttons_8;
+	// System.Boolean NRKernal.NRExamples.DemoScenesMenu::invisible
+	bool ___invisible_9;
 };
 
 // NRKernal.NRExamples.ExamplesHub
@@ -6495,6 +6499,8 @@ inline UserDefineButtonU5BU5D_tAD7F4D4A3CC949D247290587468C35DBE27FBC6E* GameObj
 {
 	return ((  UserDefineButtonU5BU5D_tAD7F4D4A3CC949D247290587468C35DBE27FBC6E* (*) (GameObject_t76FEDD663AB33C991A9C9A23129337651094216F*, bool, const RuntimeMethod*))GameObject_GetComponentsInChildren_TisRuntimeObject_m511E687BF2424F8D832EA2EAA459870887FB9540_gshared)(__this, ___includeInactive0, method);
 }
+// System.Boolean UnityEngine.GameObject::get_active()
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool GameObject_get_active_mAADB8845313470CFA8C2A937543D0B004E035BA5 (GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* __this, const RuntimeMethod* method) ;
 // System.Void System.Action`1<System.String>::.ctor(System.Object,System.IntPtr)
 inline void Action_1__ctor_m9DC2953C55C4D7D4B7BEFE03D84DA1F9362D652C (Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A* __this, RuntimeObject* ___object0, intptr_t ___method1, const RuntimeMethod* method)
 {
@@ -6516,6 +6522,8 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t SceneUtility_GetBuildIndexByScenePath
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Scene_tA1DC762B79745EB5140F054C884855B922318356 SceneManager_GetActiveScene_m0B320EC4302F51A71495D1CCD1A0FF9C2ED1FDC8 (const RuntimeMethod* method) ;
 // System.String UnityEngine.SceneManagement.Scene::get_name()
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* Scene_get_name_m3C818DFA663E159274DAD823B780C7616C5E2A8C (Scene_tA1DC762B79745EB5140F054C884855B922318356* __this, const RuntimeMethod* method) ;
+// System.Void UnityEngine.GameObject::set_active(System.Boolean)
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameObject_set_active_m00EC1A49DFCDD1BF15F3DCB5103B60579CCE8888 (GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* __this, bool ___value0, const RuntimeMethod* method) ;
 // System.Void NRKernal.SingletonBehaviour`1<NRKernal.NRExamples.DemoScenesMenu>::.ctor()
 inline void SingletonBehaviour_1__ctor_m779AF12F0E05091C0E5948B9FC0EDCA6A01A8D7E (SingletonBehaviour_1_t50D060481C24D674C6B6935A8FDB2509A7E1886A* __this, const RuntimeMethod* method)
 {
@@ -7168,6 +7176,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void VideoCapture2LocalExample_StartVideoCapt
 inline Image_tBC1D03F63BF71132E9A5E472B8742F172A011E7E* Component_GetComponent_TisImage_tBC1D03F63BF71132E9A5E472B8742F172A011E7E_mE74EE63C85A63FC34DCFC631BC229207B420BC79 (Component_t39FBE53E5EFCF4409111FB22C15FF73717632EC3* __this, const RuntimeMethod* method)
 {
 	return ((  Image_tBC1D03F63BF71132E9A5E472B8742F172A011E7E* (*) (Component_t39FBE53E5EFCF4409111FB22C15FF73717632EC3*, const RuntimeMethod*))Component_GetComponent_TisRuntimeObject_m7181F81CAEC2CF53F5D2BC79B7425C16E1F80D33_gshared)(__this, method);
+}
+// UnityEngine.GameObject UnityEngine.GameObject::FindGameObjectWithTag(System.String)
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* GameObject_FindGameObjectWithTag_mF0229BC2074CE9EEA72FAB1E5A4BC2AEC3D2CDBE (String_t* ___tag0, const RuntimeMethod* method) ;
+// T UnityEngine.GameObject::GetComponent<UnityEngine.UI.Text>()
+inline Text_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62* GameObject_GetComponent_TisText_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62_mBE6B722369FF149589D3D42A6A8435A9C5045B3F (GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* __this, const RuntimeMethod* method)
+{
+	return ((  Text_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62* (*) (GameObject_t76FEDD663AB33C991A9C9A23129337651094216F*, const RuntimeMethod*))GameObject_GetComponent_TisRuntimeObject_m6EAED4AA356F0F48288F67899E5958792395563B_gshared)(__this, method);
 }
 // UnityEngine.Resolution NRKernal.NRExamples.VideoCapture2LocalExample::GetResolutionByLevel(NRKernal.NRExamples.VideoCapture2LocalExample/ResolutionLevel)
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Resolution_tDF215F567EEFFD07B9A8FB7CEACC08EA6B8B9525 VideoCapture2LocalExample_GetResolutionByLevel_mECE12DA12B987A4450CB97080689C436A0939C26 (VideoCapture2LocalExample_t18876C57103465FF698980CA1E14529C06548416* __this, int32_t ___level0, const RuntimeMethod* method) ;
@@ -16945,56 +16960,65 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void DemoScenesMenu_Start_m7FFF07360350251894
 		L_3 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(L_2, NULL);
 		NullCheck(L_3);
 		GameObject_SetActive_m638E92E1E75E519E5B24CF150B08CA8E0CDFAB92(L_3, (bool)0, NULL);
-		// foreach (var item in Buttons)
-		UserDefineButtonU5BU5D_tAD7F4D4A3CC949D247290587468C35DBE27FBC6E* L_4 = __this->___Buttons_8;
-		V_0 = L_4;
-		V_1 = 0;
-		goto IL_005d;
-	}
-
-IL_0031:
-	{
-		// foreach (var item in Buttons)
-		UserDefineButtonU5BU5D_tAD7F4D4A3CC949D247290587468C35DBE27FBC6E* L_5 = V_0;
-		int32_t L_6 = V_1;
+		// invisible = m_ButtonsRoot.gameObject.active;
+		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_4 = __this->___m_ButtonsRoot_7;
+		NullCheck(L_4);
+		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_5;
+		L_5 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(L_4, NULL);
 		NullCheck(L_5);
-		int32_t L_7 = L_6;
-		UserDefineButton_t22A3235346D13A7DE1C492A6298ADADC9DC36556* L_8 = (L_5)->GetAt(static_cast<il2cpp_array_size_t>(L_7));
-		V_2 = L_8;
-		// item.OnClick += OnItemTriggerEvent;
-		UserDefineButton_t22A3235346D13A7DE1C492A6298ADADC9DC36556* L_9 = V_2;
-		UserDefineButton_t22A3235346D13A7DE1C492A6298ADADC9DC36556* L_10 = L_9;
-		NullCheck(L_10);
-		Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A* L_11 = L_10->___OnClick_4;
-		Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A* L_12 = (Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A*)il2cpp_codegen_object_new(Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A_il2cpp_TypeInfo_var);
-		NullCheck(L_12);
-		Action_1__ctor_m9DC2953C55C4D7D4B7BEFE03D84DA1F9362D652C(L_12, __this, (intptr_t)((void*)DemoScenesMenu_OnItemTriggerEvent_m5F2E9E5F289A071244BBEB5447DA2A3DCCE14C46_RuntimeMethod_var), NULL);
-		Delegate_t* L_13;
-		L_13 = Delegate_Combine_m1F725AEF318BE6F0426863490691A6F4606E7D00(L_11, L_12, NULL);
-		NullCheck(L_10);
-		L_10->___OnClick_4 = ((Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A*)Castclass((RuntimeObject*)L_13, Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A_il2cpp_TypeInfo_var));
-		Il2CppCodeGenWriteBarrier((void**)(&L_10->___OnClick_4), (void*)((Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A*)Castclass((RuntimeObject*)L_13, Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A_il2cpp_TypeInfo_var)));
-		int32_t L_14 = V_1;
-		V_1 = ((int32_t)il2cpp_codegen_add(L_14, 1));
+		bool L_6;
+		L_6 = GameObject_get_active_mAADB8845313470CFA8C2A937543D0B004E035BA5(L_5, NULL);
+		__this->___invisible_9 = L_6;
+		// foreach (var item in Buttons)
+		UserDefineButtonU5BU5D_tAD7F4D4A3CC949D247290587468C35DBE27FBC6E* L_7 = __this->___Buttons_8;
+		V_0 = L_7;
+		V_1 = 0;
+		goto IL_0073;
 	}
 
-IL_005d:
+IL_0047:
 	{
 		// foreach (var item in Buttons)
-		int32_t L_15 = V_1;
-		UserDefineButtonU5BU5D_tAD7F4D4A3CC949D247290587468C35DBE27FBC6E* L_16 = V_0;
-		NullCheck(L_16);
-		if ((((int32_t)L_15) < ((int32_t)((int32_t)(((RuntimeArray*)L_16)->max_length)))))
+		UserDefineButtonU5BU5D_tAD7F4D4A3CC949D247290587468C35DBE27FBC6E* L_8 = V_0;
+		int32_t L_9 = V_1;
+		NullCheck(L_8);
+		int32_t L_10 = L_9;
+		UserDefineButton_t22A3235346D13A7DE1C492A6298ADADC9DC36556* L_11 = (L_8)->GetAt(static_cast<il2cpp_array_size_t>(L_10));
+		V_2 = L_11;
+		// item.OnClick += OnItemTriggerEvent;
+		UserDefineButton_t22A3235346D13A7DE1C492A6298ADADC9DC36556* L_12 = V_2;
+		UserDefineButton_t22A3235346D13A7DE1C492A6298ADADC9DC36556* L_13 = L_12;
+		NullCheck(L_13);
+		Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A* L_14 = L_13->___OnClick_4;
+		Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A* L_15 = (Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A*)il2cpp_codegen_object_new(Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A_il2cpp_TypeInfo_var);
+		NullCheck(L_15);
+		Action_1__ctor_m9DC2953C55C4D7D4B7BEFE03D84DA1F9362D652C(L_15, __this, (intptr_t)((void*)DemoScenesMenu_OnItemTriggerEvent_m5F2E9E5F289A071244BBEB5447DA2A3DCCE14C46_RuntimeMethod_var), NULL);
+		Delegate_t* L_16;
+		L_16 = Delegate_Combine_m1F725AEF318BE6F0426863490691A6F4606E7D00(L_14, L_15, NULL);
+		NullCheck(L_13);
+		L_13->___OnClick_4 = ((Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A*)Castclass((RuntimeObject*)L_16, Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A_il2cpp_TypeInfo_var));
+		Il2CppCodeGenWriteBarrier((void**)(&L_13->___OnClick_4), (void*)((Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A*)Castclass((RuntimeObject*)L_16, Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A_il2cpp_TypeInfo_var)));
+		int32_t L_17 = V_1;
+		V_1 = ((int32_t)il2cpp_codegen_add(L_17, 1));
+	}
+
+IL_0073:
+	{
+		// foreach (var item in Buttons)
+		int32_t L_18 = V_1;
+		UserDefineButtonU5BU5D_tAD7F4D4A3CC949D247290587468C35DBE27FBC6E* L_19 = V_0;
+		NullCheck(L_19);
+		if ((((int32_t)L_18) < ((int32_t)((int32_t)(((RuntimeArray*)L_19)->max_length)))))
 		{
-			goto IL_0031;
+			goto IL_0047;
 		}
 	}
 	{
 		// GameObject.DontDestroyOnLoad(gameObject);
-		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_17;
-		L_17 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(__this, NULL);
+		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_20;
+		L_20 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(__this, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
-		Object_DontDestroyOnLoad_m4B70C3AEF886C176543D1295507B6455C9DCAEA7(L_17, NULL);
+		Object_DontDestroyOnLoad_m4B70C3AEF886C176543D1295507B6455C9DCAEA7(L_20, NULL);
 		// }
 		return;
 	}
@@ -17123,6 +17147,25 @@ IL_0026:
 		// }
 		bool L_6 = V_1;
 		return L_6;
+	}
+}
+// System.Void NRKernal.NRExamples.DemoScenesMenu::TriggerInvisible()
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void DemoScenesMenu_TriggerInvisible_m1F020EBD577F5E512264F6427518C54EC4D6A8C4 (DemoScenesMenu_t1B75873EBA44FC6DBA32EDDBCE2F2A89D0E8819B* __this, const RuntimeMethod* method) 
+{
+	{
+		// m_ButtonsRoot.gameObject.active = !invisible;
+		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_0 = __this->___m_ButtonsRoot_7;
+		NullCheck(L_0);
+		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_1;
+		L_1 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(L_0, NULL);
+		bool L_2 = __this->___invisible_9;
+		NullCheck(L_1);
+		GameObject_set_active_m00EC1A49DFCDD1BF15F3DCB5103B60579CCE8888(L_1, (bool)((((int32_t)L_2) == ((int32_t)0))? 1 : 0), NULL);
+		// invisible = !invisible;
+		bool L_3 = __this->___invisible_9;
+		__this->___invisible_9 = (bool)((((int32_t)L_3) == ((int32_t)0))? 1 : 0);
+		// }
+		return;
 	}
 }
 // System.Void NRKernal.NRExamples.DemoScenesMenu::.ctor()
@@ -25436,9 +25479,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void VideoCapture2LocalExample_StartVideoCapt
 	static bool s_Il2CppMethodInitialized;
 	if (!s_Il2CppMethodInitialized)
 	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&GameObject_GetComponent_TisText_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62_mBE6B722369FF149589D3D42A6A8435A9C5045B3F_RuntimeMethod_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&NRDebugger_tA952919E945AB3F2FE6715F1E9A6D774B3E4E1B9_il2cpp_TypeInfo_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&OnVideoModeStartedCallback_t3234B440859CB88C7380634B93922B04822B37D9_il2cpp_TypeInfo_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&VideoCapture2LocalExample_OnStartedVideoCaptureMode_m5FFC9344278522F2A1221A4EB56EE9CADB0E52E3_RuntimeMethod_var);
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteral1175C3DD0458BC68A22A8CCD781E75331F9EBA22);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteralFE37666AB08DD158CE46438B00FCE0892421DE9A);
 		s_Il2CppMethodInitialized = true;
 	}
@@ -25476,59 +25521,67 @@ IL_0017:
 		bool L_3 = V_2;
 		if (!L_3)
 		{
-			goto IL_002c;
+			goto IL_0046;
 		}
 	}
 	{
 		// NRDebugger.Warning("Can not start video capture!");
 		il2cpp_codegen_runtime_class_init_inline(NRDebugger_tA952919E945AB3F2FE6715F1E9A6D774B3E4E1B9_il2cpp_TypeInfo_var);
 		NRDebugger_Warning_mE661A6B068513E4A3AE4B9527DDC72ED6140CC34(_stringLiteralFE37666AB08DD158CE46438B00FCE0892421DE9A, NULL);
+		// GameObject.FindGameObjectWithTag("NoticeText").GetComponent<Text>().text = "Can not start video capture!";
+		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_4;
+		L_4 = GameObject_FindGameObjectWithTag_mF0229BC2074CE9EEA72FAB1E5A4BC2AEC3D2CDBE(_stringLiteral1175C3DD0458BC68A22A8CCD781E75331F9EBA22, NULL);
+		NullCheck(L_4);
+		Text_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62* L_5;
+		L_5 = GameObject_GetComponent_TisText_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62_mBE6B722369FF149589D3D42A6A8435A9C5045B3F(L_4, GameObject_GetComponent_TisText_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62_mBE6B722369FF149589D3D42A6A8435A9C5045B3F_RuntimeMethod_var);
+		NullCheck(L_5);
+		VirtualActionInvoker1< String_t* >::Invoke(75 /* System.Void UnityEngine.UI.Text::set_text(System.String) */, L_5, _stringLiteralFE37666AB08DD158CE46438B00FCE0892421DE9A);
 		// return;
-		goto IL_00ba;
+		goto IL_00d4;
 	}
 
-IL_002c:
+IL_0046:
 	{
 		// CameraParameters cameraParameters = new CameraParameters();
 		il2cpp_codegen_initobj((&V_0), sizeof(CameraParameters_tE3F8FC7F30CD5CE2FAA83134DC1813C4A3FF3B61));
 		// Resolution cameraResolution = GetResolutionByLevel(resolutionLevel);
-		int32_t L_4 = __this->___resolutionLevel_11;
-		Resolution_tDF215F567EEFFD07B9A8FB7CEACC08EA6B8B9525 L_5;
-		L_5 = VideoCapture2LocalExample_GetResolutionByLevel_mECE12DA12B987A4450CB97080689C436A0939C26(__this, L_4, NULL);
-		V_1 = L_5;
+		int32_t L_6 = __this->___resolutionLevel_11;
+		Resolution_tDF215F567EEFFD07B9A8FB7CEACC08EA6B8B9525 L_7;
+		L_7 = VideoCapture2LocalExample_GetResolutionByLevel_mECE12DA12B987A4450CB97080689C436A0939C26(__this, L_6, NULL);
+		V_1 = L_7;
 		// cameraParameters.hologramOpacity = 0.0f;
 		CameraParameters_set_hologramOpacity_mB77196D0EB0BBA7FC6346DC1B381BFB4FD11C983_inline((&V_0), (0.0f), NULL);
 		// cameraParameters.frameRate = cameraResolution.refreshRate;
-		int32_t L_6;
-		L_6 = Resolution_get_refreshRate_mBA65C6BC920F0045E798C9F096E830C135F37870((&V_1), NULL);
-		CameraParameters_set_frameRate_mD7B425F204423C9183D466AA889BA3089663A833_inline((&V_0), L_6, NULL);
-		// cameraParameters.cameraResolutionWidth = cameraResolution.width;
-		int32_t L_7;
-		L_7 = Resolution_get_width_mC55423852D453EEC0B66E692AA3E7F5DE772FB24((&V_1), NULL);
-		CameraParameters_set_cameraResolutionWidth_m55003EF41630C11B7ADC8BE801833DFB7254A6D5_inline((&V_0), L_7, NULL);
-		// cameraParameters.cameraResolutionHeight = cameraResolution.height;
 		int32_t L_8;
-		L_8 = Resolution_get_height_mD46754FA3634CA816BE91D1610D1FEBDECCEBE5B((&V_1), NULL);
-		CameraParameters_set_cameraResolutionHeight_mFC86B731B438B425F64FA3C9281D14A78EA7A647_inline((&V_0), L_8, NULL);
+		L_8 = Resolution_get_refreshRate_mBA65C6BC920F0045E798C9F096E830C135F37870((&V_1), NULL);
+		CameraParameters_set_frameRate_mD7B425F204423C9183D466AA889BA3089663A833_inline((&V_0), L_8, NULL);
+		// cameraParameters.cameraResolutionWidth = cameraResolution.width;
+		int32_t L_9;
+		L_9 = Resolution_get_width_mC55423852D453EEC0B66E692AA3E7F5DE772FB24((&V_1), NULL);
+		CameraParameters_set_cameraResolutionWidth_m55003EF41630C11B7ADC8BE801833DFB7254A6D5_inline((&V_0), L_9, NULL);
+		// cameraParameters.cameraResolutionHeight = cameraResolution.height;
+		int32_t L_10;
+		L_10 = Resolution_get_height_mD46754FA3634CA816BE91D1610D1FEBDECCEBE5B((&V_1), NULL);
+		CameraParameters_set_cameraResolutionHeight_mFC86B731B438B425F64FA3C9281D14A78EA7A647_inline((&V_0), L_10, NULL);
 		// cameraParameters.pixelFormat = CapturePixelFormat.BGRA32;
 		CameraParameters_set_pixelFormat_m6C72B0AD184B3F241F08D0FC0EA2FC62E317715F_inline((&V_0), 0, NULL);
 		// cameraParameters.blendMode = blendMode;
-		int32_t L_9 = __this->___blendMode_10;
-		CameraParameters_set_blendMode_mF18D2176CFA29D106CDCEA203B0FAE07D0AB557A_inline((&V_0), L_9, NULL);
+		int32_t L_11 = __this->___blendMode_10;
+		CameraParameters_set_blendMode_mF18D2176CFA29D106CDCEA203B0FAE07D0AB557A_inline((&V_0), L_11, NULL);
 		// cameraParameters.audioState = audioState;
-		int32_t L_10 = __this->___audioState_13;
-		CameraParameters_set_audioState_m6ACD6E2A37AF15369152ABE6E5D186456F3D655D_inline((&V_0), L_10, NULL);
+		int32_t L_12 = __this->___audioState_13;
+		CameraParameters_set_audioState_m6ACD6E2A37AF15369152ABE6E5D186456F3D655D_inline((&V_0), L_12, NULL);
 		// m_VideoCapture.StartVideoModeAsync(cameraParameters, OnStartedVideoCaptureMode, true);
-		NRVideoCapture_t8E809E91726E02D068A218AD65235D78D1B98D26* L_11 = __this->___m_VideoCapture_15;
-		CameraParameters_tE3F8FC7F30CD5CE2FAA83134DC1813C4A3FF3B61 L_12 = V_0;
-		OnVideoModeStartedCallback_t3234B440859CB88C7380634B93922B04822B37D9* L_13 = (OnVideoModeStartedCallback_t3234B440859CB88C7380634B93922B04822B37D9*)il2cpp_codegen_object_new(OnVideoModeStartedCallback_t3234B440859CB88C7380634B93922B04822B37D9_il2cpp_TypeInfo_var);
+		NRVideoCapture_t8E809E91726E02D068A218AD65235D78D1B98D26* L_13 = __this->___m_VideoCapture_15;
+		CameraParameters_tE3F8FC7F30CD5CE2FAA83134DC1813C4A3FF3B61 L_14 = V_0;
+		OnVideoModeStartedCallback_t3234B440859CB88C7380634B93922B04822B37D9* L_15 = (OnVideoModeStartedCallback_t3234B440859CB88C7380634B93922B04822B37D9*)il2cpp_codegen_object_new(OnVideoModeStartedCallback_t3234B440859CB88C7380634B93922B04822B37D9_il2cpp_TypeInfo_var);
+		NullCheck(L_15);
+		OnVideoModeStartedCallback__ctor_m5B04B1A6D61BDF4E31DCF86D541ABD4A9644C3E2(L_15, __this, (intptr_t)((void*)VideoCapture2LocalExample_OnStartedVideoCaptureMode_m5FFC9344278522F2A1221A4EB56EE9CADB0E52E3_RuntimeMethod_var), NULL);
 		NullCheck(L_13);
-		OnVideoModeStartedCallback__ctor_m5B04B1A6D61BDF4E31DCF86D541ABD4A9644C3E2(L_13, __this, (intptr_t)((void*)VideoCapture2LocalExample_OnStartedVideoCaptureMode_m5FFC9344278522F2A1221A4EB56EE9CADB0E52E3_RuntimeMethod_var), NULL);
-		NullCheck(L_11);
-		NRVideoCapture_StartVideoModeAsync_mF25DDB3A82F75D966A2C989D017B8A13EE160D68(L_11, L_12, L_13, (bool)1, NULL);
+		NRVideoCapture_StartVideoModeAsync_mF25DDB3A82F75D966A2C989D017B8A13EE160D68(L_13, L_14, L_15, (bool)1, NULL);
 	}
 
-IL_00ba:
+IL_00d4:
 	{
 		// }
 		return;

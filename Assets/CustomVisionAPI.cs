@@ -8,13 +8,12 @@ public class CustomVisionAPI : MonoBehaviour
 {
     public ResultJson result;
     private WWW www;
+    Dictionary<string, string> headers = new Dictionary<string, string>();
 
     // Values
-    private static string key = "660e24abf0504578a7abc88a5ad82c49";
-    private string url = "https://metaversedevelopergolfball-prediction.cognitiveservices.azure.com/customvision/v3.0/Prediction/bd435c16-492a-4c5a-b718-bbc3391e5341/detect/iterations/";
-    //private string url = "/iterations/Iteration1/image?";
-    public string model = "FlippedDetect/image";
-    Dictionary<string, string> headers = new Dictionary<string, string>();
+    private readonly static string key = "660e24abf0504578a7abc88a5ad82c49";
+    private readonly static string url = "https://metaversedevelopergolfball-prediction.cognitiveservices.azure.com/customvision/v3.0/Prediction/bd435c16-492a-4c5a-b718-bbc3391e5341/detect/iterations/";
+    private readonly static string model = "Iteration4/image";
 
     private void Start()
     {
@@ -35,10 +34,8 @@ public class CustomVisionAPI : MonoBehaviour
             int delay = 5000;
             int timer = 0;
             bool done = false;
-
-            byte[] byteData = texture.EncodeToPNG();
-
-            www = new WWW(url+model, byteData, headers);
+            
+            www = new WWW(url+model, texture.EncodeToPNG(), headers);
 
             while (delay > timer)
             {
@@ -46,13 +43,10 @@ public class CustomVisionAPI : MonoBehaviour
                 timer++;
                 if (www.isDone)
                 {
+                    Debug.Log("[CustomVisionAPI] byteData_get");
                     done = true;
 
-                    byte[] bytedata = www.bytes;
-                    var str = System.Text.Encoding.Default.GetString(bytedata);
-                    Debug.Log("[CustomVisionAPI] byteData_str: " + str);
-
-                    result = JsonConvert.DeserializeObject<ResultJson>(str);
+                    result = JsonConvert.DeserializeObject<ResultJson>(System.Text.Encoding.Default.GetString(www.bytes));
                     break;
                 }
             }
@@ -70,4 +64,5 @@ public class CustomVisionAPI : MonoBehaviour
             return false;
         }
     }
+
 }

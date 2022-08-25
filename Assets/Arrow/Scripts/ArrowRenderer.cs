@@ -8,12 +8,8 @@ public class ArrowRenderer : MonoBehaviour
     public float fadeDistance = 0.35f;
     public float speed = 1f;
 
-    [SerializeField] UserPosUpdate user;
-    [SerializeField] BallPosUpdate ball; 
-    
-
-    [SerializeField] GameObject arrowPrefab;
-    [SerializeField] GameObject segmentPrefab;
+    [SerializeField] public GameObject arrowPrefab;
+    [SerializeField] public GameObject segmentPrefab;
 
     [Space] [SerializeField] Vector3 start;
     [SerializeField] Vector3 end;
@@ -23,11 +19,6 @@ public class ArrowRenderer : MonoBehaviour
 
     readonly List<Transform> segments = new List<Transform>();
     readonly List<MeshRenderer> renderers = new List<MeshRenderer>();
-
-    public void Run()
-    {
-        SetPositions(new Vector3(0f, 0f), new Vector3(CoordinateHandler.GPStoMeterEast(user.userLon, ball.realPos.z), 0f, CoordinateHandler.GPStoMeterEast(user.userLon, ball.realPos.z)));
-    }
 
     public void SetPositions(Vector3 start0, Vector3 end0)
     {

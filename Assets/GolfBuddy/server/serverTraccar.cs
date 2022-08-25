@@ -6,21 +6,23 @@ using UnityEngine.Networking;
 
 public class serverTraccar : MonoBehaviour
 {
+
     public GPSHandler gps;
-
     public string ec2_address = "ec2-15-164-104-138";
-
-    private static string uri = "http://ec2-15-164-104-138.ap-northeast-2.compute.amazonaws.com:5055";
-    private static long userId = 100001;
+    private static string uri = "http://ec2-15-164-104-138.ap-northeast-2.compute.amazonaws.com:5055";  //AWS 지원 받으면 편집
+    public long userId = 12190329; //식별용 Serial Number
     public bool server_state = false;
 
     private double longitude;
     private double latitude;
     private float currTime;
 
-    public DateTime timestamp;
-    public string timedata;
-    public string data;
+    private DateTime timestamp;
+    private string timedata;
+    private string data;
+
+
+    public int updateLatency;
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +35,7 @@ public class serverTraccar : MonoBehaviour
     {
         currTime += Time.deltaTime;
 
-        if (currTime > 10)
+        if (currTime > updateLatency)
         {
             updatePos();
             currTime = 0;

@@ -1,5 +1,4 @@
 using Newtonsoft.Json;
-using Proyecto26;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEditor;
@@ -15,6 +14,7 @@ public class KakaoMapAPI
     private double latitude;
 
     public KakaoReturn kakao_return;
+    private WWW www;
 
     public KakaoMapAPI(double lon, double lat)
     {
@@ -42,7 +42,7 @@ public class KakaoMapAPI
             Dictionary<string, string> headers = new Dictionary<string, string>();
             headers.Add("Authorization", "KakaoAK "+key);
 
-            WWW www = new WWW(url, null, headers);
+            www = new WWW(url, null, headers);
 
             int delay = 1000;
             int timer = 0;

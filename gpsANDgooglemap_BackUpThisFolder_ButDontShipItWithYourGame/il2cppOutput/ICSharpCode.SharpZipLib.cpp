@@ -17925,7 +17925,7 @@ IL_0255:
 		L_96 = ZipEntry_get_Comment_m3580C8CAABD4A85BDDC6029312612D071DC02B7A_inline(L_95, NULL);
 		NullCheck(L_94);
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_97;
-		L_97 = VirtualFuncInvoker1< ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031*, String_t* >::Invoke(19 /* System.Byte[] System.Text.Encoding::GetBytes(System.String) */, L_94, L_96);
+		L_97 = VirtualFuncInvoker1< ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031*, String_t* >::Invoke(17 /* System.Byte[] System.Text.Encoding::GetBytes(System.String) */, L_94, L_96);
 		G_B45_0 = L_97;
 	}
 

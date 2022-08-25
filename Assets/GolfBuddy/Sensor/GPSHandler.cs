@@ -8,29 +8,32 @@ using UnityEngine.Android;
 public class GPSHandler : MonoBehaviour
 {
     //  Toggle
-    [SerializeField] public OptionSetting setting;
     public bool test_mode;
-    public bool onUnity;
+    public bool gps_state;
 
-    //  실제 데이터
-    public float longitude = 0;  //실제데이터
-    public float latitude = 0;
+    //  배포 데이터
+    public double longitude = 0;  //실제데이터
+    public double latitude = 0;
 
+    //  내부 데이터 - 테스트 환경용 Coordinate 연산
+    public double startLong;
+    public double startLat;
+    private bool start = true;
+    public double lastLong;
+    public double lastLat;
     public bool isUpdating = false;
     public bool isUpdated = false;
 
-    //  테스트용 Coordinate 연산
+    //  2D Map 하단에 좌표 위시 Overlay용
     [SerializeField] Text text;
-    public float startLong;
-    public float startLat;
-    private bool start = true;
-    public float lastLong;
-    public float lastLat;
+
 
     private void Start()
     {
-        onUnity = false;
         test_mode = false;
+
+        StartCoroutine(GetLocation());
+        isUpdating = !isUpdating;
     }
 
     private void Update()
@@ -52,8 +55,16 @@ public class GPSHandler : MonoBehaviour
         #region 테스트
         if (test_mode)
         {
-            longitude = 128.07340f + (lastLong - startLong);
-            latitude = 34.83658f + (lastLat - startLat);
+            if (Application.isEditor) //유니티 내부면
+            {
+                longitude = 128.07340f;
+                latitude = 34.83658f;
+            }
+            else 
+            {
+                longitude = 128.07340f + (lastLong - startLong);
+                latitude = 34.83658f + (lastLat - startLat);
+            }
         }
         #endregion
 
@@ -64,34 +75,32 @@ public class GPSHandler : MonoBehaviour
             latitude = lastLat;
         }
         #endregion
-
-        text.text = "LON: " + longitude.ToString("F3") + ", LAT: " + latitude.ToString("F3");
     }
 
 
     IEnumerator GetLocation()
     {
+        //  권한 확인 및 부여
         if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation))
         {
             Permission.RequestUserPermission(Permission.FineLocation);
             Permission.RequestUserPermission(Permission.CoarseLocation);
         }
-        // First, check if user has location service enabled
+
+        //  GPS 상태 확인
         if (!Input.location.isEnabledByUser)
             yield return new WaitForSeconds(10);
 
-        // Start service before querying location
+        //  Location 서비스 시작
         Input.location.Start();
 
-        // Wait until service initializes
-        int maxWait = 5;
+        //  서비스 Initialize
+        int maxWait = 20;
         while (Input.location.status == LocationServiceStatus.Initializing && maxWait > 0)
         {
             yield return new WaitForSeconds(1);
             maxWait--;
         }
-
-        // Service didn't initialize in 20 seconds
         if (maxWait < 1)
         {
 
@@ -99,37 +108,47 @@ public class GPSHandler : MonoBehaviour
             yield break;
         }
 
-        // Connection has failed
+        //  서비스 실패시 알림
         if (Input.location.status == LocationServiceStatus.Failed)
         {
             print("Unable to determine device location");
             yield break;
         }
+        //  내부 데이터 업데이트
         else
         {
             isUpdated = true;
-            lastLat = Input.location.lastData.latitude;
-            lastLong = Input.location.lastData.longitude;
+
+            lastLong = Input.location.lastData.longitude * 1.0d;
+            lastLat = Input.location.lastData.latitude * 1.0d;
         }
 
-        // Stop service if there is no need to query location updates continuously
-        isUpdating = !isUpdating;
-        Input.location.Stop();
+        //  Location 서비스 중지
+        if (!gps_state)
+        {
+            isUpdating = !isUpdating;
+            Input.location.Stop();
+            Debug.Log("GPS 서비스 중지");
+        }
     }
 
-    public float GetLong()
+
+    //  Longitude 좌표 호출 Method
+    public double GetLong()
     {
-        return longitude;
+        return longitude ;
     }
 
-    public float GetLat()
+    //  Latitude 좌표 호출 Method
+    public double GetLat()
     {
         return latitude;
     }
 
+    //  지정 Terrain 공간 내부인지 확인 Method
     public bool CheckInArea(TerrainDataPos terrainData) {
 
-        if(longitude > (float)terrainData.leftLong && longitude < (float)terrainData.rightLong && latitude > (float)terrainData.bottomLat && latitude < (float)terrainData.topLat)
+        if(longitude > terrainData.leftLong && longitude < terrainData.rightLong && latitude > terrainData.bottomLat && latitude < terrainData.topLat)
         {
             return true;
         }
