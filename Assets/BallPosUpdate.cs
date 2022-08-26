@@ -11,7 +11,6 @@ public class BallPosUpdate : MonoBehaviour
 
     private void Update()
     {
-        unityPos = rayhit.hitpos_3d;
-        elevation = rayhit.point_elevation;
+
     }
 }

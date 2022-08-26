@@ -7,8 +7,6 @@ using UnityEngine.EventSystems;
 
 public class RayHitPosition : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    //  Notice
-    [SerializeField] Text notice;
 
     //  Ray
     //[SerializeField] NRPointerRaycaster raycaster_r;
@@ -53,14 +51,12 @@ public class RayHitPosition : MonoBehaviour, IPointerClickHandler, IPointerEnter
         var handControllerAnchor = NRInput.DomainHand == ControllerHandEnum.Left ? ControllerAnchorEnum.LeftLaserAnchor : ControllerAnchorEnum.RightLaserAnchor;
         Transform laserAnchor = NRInput.AnchorsHelper.GetAnchor(NRInput.RaycastMode == RaycastModeEnum.Gaze ? ControllerAnchorEnum.GazePoseTrackerAnchor : handControllerAnchor);
 
+        //  Map태그 Raycast Hit
         RaycastHit hitResult;
-
         int layerMask = 1 << LayerMask.NameToLayer("Map");
 
 
-        //  2D Map
-        //if (raycaster_r.Raycast(pointerEvent, new RaycastResult))
-
+        #region 평면 지도
         if (Physics.Raycast(new Ray(laserAnchor.transform.position, laserAnchor.transform.forward), out hitResult, layerMask))
         {
             if (hitResult.collider.gameObject != null && hitResult.collider.gameObject.GetComponent<Renderer>() != null)
@@ -73,52 +69,44 @@ public class RayHitPosition : MonoBehaviour, IPointerClickHandler, IPointerEnter
                 point_object_2D.transform.position = hitpos_2d;
             }
         }
+        #endregion
 
-        //  3D Map
+
+        #region 3차원 지도
         if (Physics.Raycast(new Ray(laserAnchor.transform.position, laserAnchor.transform.forward), out hitResult, 10))
         {
+            //  Terrain과 Raycast 충돌
             if (hitResult.collider.gameObject != null && hitResult.collider.gameObject.GetComponent<Terrain>() != null)
             {
-                //  GPS 좌표를 구하기 위해서 hitpos를 Terrain 좌표계로 변환
-                Vector3 pos_in_terrain = hitResult.point - map3d.transform.position + new Vector3(0.5f, 1f, 0);
+                //  Hitpos로 Ball Object이동
+                Debug.Log("Hitpos raw: " + hitResult.point);
+                point_object_3D.transform.position = hitResult.point;   
 
-                Debug.Log("pos_in_terrain" + pos_in_terrain.x + ", " + pos_in_terrain.y + ", " + pos_in_terrain.z);    //Terrain 내부 위치 출력
+                //  GPS 좌표를 구하기 위해서 hitpos를 Terrain 좌표계로 변환
+                Vector3 pos_in_terrain = hitResult.point - map3d.transform.position + new Vector3(0.5f, 1f, 0); //  -> Terrain 좌측하단 (0,0)
+
+                Debug.Log("pos_in_terrain" + pos_in_terrain);    //Terrain 내부 위치 출력
                 Debug.Log("Elevation" + (-375.07543 + 732.27199 * pos_in_terrain.y));
 
-                //  Point Object 3차원맵 위에 transform
-                point_object_3D.transform.position = hitpos_3d - map3d.transform.position ;
-                Debug.Log("hitpos_3d" + hitpos_3d.x + ", " + hitpos_3d.y + ", " + hitpos_3d.z);    //hitpos_3d world 위치 출력
-                Debug.Log("point_object_3D" + point_object_3D.transform.position.x + ", " + point_object_3D.transform.position.y + ", " + point_object_3D.transform.position.z);    //hitpos_3d world 위치 출력
+                //  pos_in_terrain과 terrainDataPos로부터 Point 위성좌표 획득
+                double[] point_gps = new double[2];
+                point_gps[0] = terrainDataPos.leftLong + (terrainDataPos.rightLong - terrainDataPos.leftLong)* pos_in_terrain.x;
+                point_gps[1] = terrainDataPos.bottomLat + (terrainDataPos.topLat - terrainDataPos.bottomLat) * pos_in_terrain.z;
+                Debug.Log("[RayHitPosition]" + point_gps[0] + "  " + point_gps[1]);
 
-                double[] tem = new double[2];
-                tem[0] = terrainDataPos.leftLong + (terrainDataPos.rightLong - terrainDataPos.leftLong)* pos_in_terrain.x;
-                tem[1] = terrainDataPos.bottomLat + (terrainDataPos.topLat - terrainDataPos.bottomLat) * pos_in_terrain.z;
-
-                Debug.Log("[RayHitPosition]" + tem[0] + "  " + tem[1]);
-
-                //tem = coordinate.Unity3d2gps(hitpos_3d);
-                Vector3 temp = coordinate.gps2unity(tem[0], tem[1]);
-
-                temp.y = temp.y * terrainDataPos.resolution;
+                //  Terrain높이 데이터로부터 실제 고도 계산
                 point_elevation = 569.663464f * Terrain.activeTerrain.SampleHeight(hitpos_3d);
 
-                pointtext.transform.position = point_object_3D.transform.position + new Vector3(0, 0.1f, 0);
-                pointtext.text = "Click POS"+ tem[0].ToString() + " / " +tem[1].ToString();
-
-
+                //  Terrain 맵 위의 미니궤적 그리기
                 parabola.render = true;
 
-                notice.text = ""+ tem[0] + ",  " + tem[1];
-                spawnObject.Set_TrajArrow(tem[0], tem[1]);
-
-                // Line Calc
-                distance = CoordinateHandler.GPStoMeter(userPos.userLon, userPos.userLat, tem[0], tem[1]); // 좌표간 거리
-
-                linetext.transform.position = (userPos.transform.position + hitpos_3d) / 2 + new Vector3(0, 0.1f, 0);
-                //linetext.text = "Horizontal Distance:" + distance + "\n"+ "Vertical Distance";
+                //  AR환경에 Point까지의 실제궤적 그리기
+                spawnObject.Set_TrajArrow(point_gps[0], point_gps[1]);
             }
         }
+        #endregion
     }
+
 
     /// <summary> when pointer click, set the cube color to random color. </summary>
     /// <param name="eventData"> Current event data.</param>

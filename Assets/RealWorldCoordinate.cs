@@ -23,7 +23,7 @@ public class RealWorldCoordinate : MonoBehaviour
 
     private void MoveLocation()
     {
-        transform.position = GPS2Unity(gps.longitude, gps.latitude);
+        //transform.position = GPS2Unity(gps.longitude, gps.latitude);
     }
 
     private Vector3 GPS2Unity(double longitude, double latitude)

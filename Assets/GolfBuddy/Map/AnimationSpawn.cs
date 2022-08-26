@@ -3,40 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class AnimationSpawn : MonoBehaviour
+public class AnimationSpawn
 {
-    float tick = -300;
-    Vector3 firstPos;
 
-    public GameObject anchor;
 
-    void OnEnable()
+
+    private const float DURATION = 1f;
+    public IEnumerator SpawnAndRotate(GameObject spawned, GameObject anchor, int speed)
     {
-        tick = -300;
-        if (anchor != null)
-        {
-            firstPos = anchor.transform.position;
-        }
-        firstPos = transform.position;
-    }
+        spawned.SetActive(true);
+        Vector3 startPOS = anchor.transform.position + new Vector3(0,-1f,0);
+        Vector3 endPOS = anchor.transform.position + new Vector3(0, -0.5f, 0);
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        if (anchor != null)
-        {
-            firstPos = anchor.transform.position;
-        }
-        firstPos = transform.position;
-    }
+        Vector3 startRot = new Vector3(0, 0, 0);
+        Vector3 endRot = new Vector3(45, 0, 0);
+        
 
-    // Update is called once per frame
-    void Update()
-    {
-        if(tick <= 0)
+        float elapsedTime = 0;
+        float progress = 0;
+        while(progress <= 1)
         {
-            this.transform.position = firstPos + new Vector3(0, tick/300, 0);
-            tick++;
+            spawned.transform.position = Vector3.Lerp(startPOS, endPOS, progress);
+            spawned.transform.GetChild(0).localRotation  = Quaternion.Euler(Vector3.Lerp(startRot, endRot, progress));
+
+            elapsedTime += Time.unscaledDeltaTime;
+            progress = elapsedTime / DURATION;
+            yield return null;
         }
+        spawned.transform.position = endPOS;
     }
 }

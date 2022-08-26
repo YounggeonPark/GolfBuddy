@@ -20,9 +20,6 @@ public class MapTransform : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //FT set
-        //Pos(fingertip, fingerAnchor);
-
         // DoF default
         Pos(weather, user); Rot(weather, user);
         Pos(map2d, user, 0.5f, -1); Rot(map2d, user);

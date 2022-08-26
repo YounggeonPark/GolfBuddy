@@ -19,8 +19,10 @@ public class OptionSetting : MonoBehaviour
 
     private void Start()
     {
-        onTestMode = false;
+        onTestMode = true;
         noticeText = GameObject.FindGameObjectWithTag("NoticeText").GetComponent<Text>();
+
+        StartSetting();
     }
 
     public void StartSetting()
