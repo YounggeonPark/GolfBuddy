@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 public class GoogleMapAPI
 {
     [SerializeField]
-    private string m_key = "AIzaSyBZcHAVpU9pUcR_4Y_R8gPWUK2btrugVGw";
+    private string m_key = "******"; //제거했음 
 
     public enum mapType
     {
