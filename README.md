@@ -29,7 +29,7 @@ Based on this information, administrators can efficiently manage the field.
 
 ![Image](https://github.com/user-attachments/assets/4278118e-6364-4ae5-a244-75e2842d8586)
 
-+ Additional Features
+@@ Additional Features @@
 - AR Animated Caddie
 - Real-time Weather Check
 - YOLO based ball tracer
