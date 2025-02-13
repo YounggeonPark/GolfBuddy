@@ -17,4 +17,4 @@ The Server stores the location data sent from the User Client in a web database 
 
 
 ## Main Features
-![Image](https://github.com/user-attachments/assets/8d3a2e73-5fca-4fff-b3e1-8ce68a24183e)
+![Image](https://github.com/user-attachments/assets/7d2cc3b5-2818-4629-8f09-9cae44ff1970)
