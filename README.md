@@ -23,3 +23,15 @@ The Server stores the location data sent from the User Client in a web database 
 
 (2) The system provides the actual distance and elevation difference between the user's current location and a selected point in the 3D spatial dataset. It also generates a visually identifiable path and displays it in the AR environment.
 ![Image](https://github.com/user-attachments/assets/bb3ab72c-ab1e-4582-8808-52f2ce9e709f)
+
+(3) The user's location data can be monitored in real time through a web-based management system.
+Based on this information, administrators can efficiently manage the field.
+![Image](https://github.com/user-attachments/assets/4278118e-6364-4ae5-a244-75e2842d8586)
+
++ Additional Features
+- AR Animated Caddie
+- Real-time Weather Check
+- YOLO based ball tracer
+
+## Data Source
+golfball dataset - Roboflow
