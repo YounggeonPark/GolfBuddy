@@ -26,6 +26,7 @@ The Server stores the location data sent from the User Client in a web database 
 
 (3) The user's location data can be monitored in real time through a web-based management system.
 Based on this information, administrators can efficiently manage the field.
+
 ![Image](https://github.com/user-attachments/assets/4278118e-6364-4ae5-a244-75e2842d8586)
 
 + Additional Features
