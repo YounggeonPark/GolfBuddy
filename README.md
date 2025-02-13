@@ -7,6 +7,8 @@
 Golf Supporting AR Application.
 
 ## 프로젝트 소개
+![Image](https://github.com/user-attachments/assets/06fb2b99-d28c-4568-9395-3564b7ba093c)
+
 
 ## 개발 기간
 
